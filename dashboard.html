@@ -875,7 +875,7 @@ tr:hover td{background:rgba(200,169,110,.03);}
       <button onclick="window.open('index.html','_blank')">🌐 الموقع</button>
 
       <button class="theme-toggle" onclick="toggleTheme()">☀️ 🌙</button>
-      <button onclick="if(window.auth&&window.auth.currentUser){window.auth.signOut();}localStorage.removeItem('alamin_current');window.location.replace('index.html#login')">🚪 خروج</button>
+      <button onclick="if(window.auth&&window.auth.currentUser){window.auth.signOut();}if(window.authLegacy&&window.authLegacy.currentUser){window.authLegacy.signOut();}localStorage.removeItem('alamin_current');window.location.replace('index.html#login')">🚪 خروج</button>
     </div>
   </div>
 
@@ -2320,6 +2320,12 @@ if (!currentUser || currentUser.role !== 'admin') {
 // الحماية الفعلية للبيانات موجودة في Firestore rules (اللي بتتحقق من
 // request.auth.uid)، والفحص ده هنا بس عشان يطرد أي حد مزوّر
 // localStorage قبل ما يقدر يشوف واجهة الداشبورد أصلاً.
+//
+// ⚠️ حساب الأدمن ممكن يكون اتسجل دخوله من مشروع Firebase الجديد
+// (taninya → window.auth) أو من المشروع القديم (aldoctor → window.authLegacy)
+// حسب فين الحساب موجود فعليًا. فبنستنى الاتنين يردّوا، ولو أي واحد فيهم
+// فيه مستخدم حقيقي، الجلسة تتقبل. الطرد بيحصل بس لو الاتنين رجّعوا "مفيش
+// مستخدم".
 (function enforceRealAdminAuth() {
   function waitForAuth(cb, tries = 0) {
     if (window.auth) { cb(); return; }
@@ -2327,12 +2333,36 @@ if (!currentUser || currentUser.role !== 'admin') {
     setTimeout(() => waitForAuth(cb, tries + 1), 150);
   }
   waitForAuth(() => {
-    window.auth.onAuthStateChanged(function (user) {
-      if (!user) {
+    // undefined = لسه ماوصلش رد من الـ listener بتاع المشروع ده
+    let newProjectUser = undefined;
+    let legacyProjectUser = undefined;
+
+    function evaluate() {
+      // نستنى الاتنين يردّوا قبل ما ناخد قرار الطرد
+      if (newProjectUser === undefined || legacyProjectUser === undefined) return;
+      const hasRealSession = !!newProjectUser || !!legacyProjectUser;
+      if (!hasRealSession) {
         localStorage.removeItem('alamin_current');
         window.location.replace('index.html#login');
       }
+    }
+
+    window.auth.onAuthStateChanged(function (user) {
+      newProjectUser = user;
+      evaluate();
     });
+
+    if (window.authLegacy) {
+      window.authLegacy.onAuthStateChanged(function (user) {
+        legacyProjectUser = user;
+        evaluate();
+      });
+    } else {
+      // مفيش legacy auth أصلاً (مش متحمّل) → نعتبره "مفيش مستخدم" فيه
+      // ونكمل بس على المشروع الجديد
+      legacyProjectUser = null;
+      evaluate();
+    }
   });
 })();
 
