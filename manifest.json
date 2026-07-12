@@ -1,0 +1,46 @@
+{
+  "name": "الدكتور في اللغة العربية",
+  "short_name": "الدكتور",
+  "description": "المنصة التعليمية الرائدة للدكتور في اللغة العربية — تفوق وسهولة في التعلم",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#6366f1",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "ايقونة الهدر.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "ايقونة الهدر.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "الدروس",
+      "url": "/lessons.html",
+      "description": "اذهب إلى الدروس"
+    },
+    {
+      "name": "الاختبارات",
+      "url": "/tests.html",
+      "description": "اذهب إلى الاختبارات"
+    },
+    {
+      "name": "ملفي",
+      "url": "/profile.html",
+      "description": "اذهب إلى ملفي الشخصي"
+    }
+  ]
+}

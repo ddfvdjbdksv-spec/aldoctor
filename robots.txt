@@ -1,0 +1,10 @@
+# robots.txt — منصة الدكتور إبراهيم طناني للغة العربية
+# https://aldoctor-7e153.web.app/
+
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /firebase-config.js
+
+# Sitemap
+Sitemap: https://aldoctor-7e153.web.app/sitemap.xml

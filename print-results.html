@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتائج الاختبار - طباعة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Arial', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            color: #333;
+        }
+
+        .print-container {
+            background: white;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Header Styles */
+        .print-header {
+            text-align: center;
+            border-bottom: 3px solid #0284c7;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .school-logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .school-name {
+            font-size: 26px;
+            font-weight: 900;
+            color: #0284c7;
+            margin-bottom: 5px;
+        }
+
+        .school-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .test-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-right: 4px solid #0284c7;
+        }
+
+        .test-info-item {
+            font-size: 14px;
+        }
+
+        .test-info-label {
+            font-weight: 700;
+            color: #0284c7;
+            margin-bottom: 4px;
+        }
+
+        .test-info-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        /* Table Styles */
+        .results-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: #0284c7;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0284c7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title-icon {
+            font-size: 24px;
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #0284c7;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 900;
+            color: #0284c7;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        thead {
+            background: #0284c7;
+            color: white;
+        }
+
+        th {
+            padding: 14px;
+            text-align: right;
+            font-weight: 700;
+            font-size: 14px;
+            border: none;
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .rank {
+            font-weight: 700;
+            color: #0284c7;
+            text-align: center;
+            min-width: 30px;
+        }
+
+        .grade {
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .grade-a {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .grade-b {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .grade-c {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+
+        .grade-f {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .status-passed {
+            background: #c8e6c9;
+            color: #1b5e20;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .status-absent {
+            background: #ffcdd2;
+            color: #b71c1c;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .print-footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .footer-item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .footer-label {
+            font-weight: 700;
+        }
+
+        /* Print Styles */
+        @media print {
+            .dev-signature {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .print-container {
+                box-shadow: none;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .print-header {
+                page-break-after: avoid;
+            }
+
+            .results-section {
+                page-break-inside: avoid;
+            }
+
+            table {
+                page-break-inside: avoid;
+            }
+
+            .btn-container {
+                display: none;
+            }
+        }
+
+        /* Buttons (Hidden in Print) */
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+        }
+
+        .btn-print:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+        }
+
+        .btn-close {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-close:hover {
+            background: #e0e0e0;
+        }
+
+        /* Note */
+        .print-note {
+            background: #fffbea;
+            border-right: 4px solid #ffa502;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #c77f2c;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .print-note-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Student Search */
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: #0284c7;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 14px;
+        }
+    </style>
+<style id="grade-cards-redesign">
+/* ═══════════════════════════════════════════════════════════════
+   GRADE CARDS — Full Redesign (overrides style.css)
+   Dark premium with glowing accents
+   ═══════════════════════════════════════════════════════════════ */
+
+.grades-section {
+  padding: 60px 0 80px;
+}
+
+.grades-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3,1fr) !important;
+  gap: 24px !important;
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+}
+
+.grades-grid-secondary {
+  gap: 24px !important;
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+}
+
+/* ── Base card reset ── */
+.grade-card {
+  position: relative !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 22px !important;
+  padding: 0 !important;
+  text-align: center !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  isolation: isolate !important;
+  transition: transform 0.4s cubic-bezier(.2,.8,.2,1) !important;
+}
+
+/* Inner wrapper for each card — all styling goes here */
+.grade-card::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: 22px !important;
+  padding: 1.5px !important;
+  background: var(--gc-border) !important;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
+  -webkit-mask-composite: destination-out !important;
+  mask-composite: exclude !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+.grade-card-glow {
+  position: absolute !important;
+  inset: 0 !important;
+  background: var(--gc-bg) !important;
+  border-radius: 22px !important;
+  z-index: 0 !important;
+  transition: filter 0.4s ease !important;
+}
+
+/* Shimmer top line */
+.grade-card::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important; left: 0 !important; right: 0 !important;
+  height: 3px !important;
+  background: var(--gc-accent) !important;
+  border-radius: 22px 22px 0 0 !important;
+  opacity: 0.9 !important;
+  z-index: 3 !important;
+}
+
+/* Card content positioning */
+.grade-card .grade-icon,
+.grade-card .grade-level,
+.grade-card h3,
+.grade-card p,
+.grade-card .grade-btn {
+  position: relative !important;
+  z-index: 4 !important;
+}
+
+/* Shared card content layout */
+.grade-card .grade-icon {
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.4rem !important;
+  margin: 30px auto 16px !important;
+  background: var(--gc-icon-bg) !important;
+  color: var(--gc-icon-color) !important;
+  border: 1.5px solid var(--gc-icon-border) !important;
+  box-shadow: 0 6px 20px var(--gc-icon-shadow) !important;
+  transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), box-shadow 0.35s ease !important;
+}
+
+.grade-card:hover .grade-icon {
+  transform: scale(1.15) translateY(-3px) rotate(-5deg) !important;
+  box-shadow: 0 12px 30px var(--gc-icon-shadow) !important;
+}
+
+.grade-card .grade-level {
+  display: inline-block !important;
+  font-size: 0.86rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.3px !important;
+  padding: 5px 16px !important;
+  border-radius: 30px !important;
+  margin-bottom: 12px !important;
+  background: var(--gc-badge-bg) !important;
+  color: var(--gc-badge-color) !important;
+  border: 1px solid var(--gc-badge-border) !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.55) !important;
+  backdrop-filter: none !important;
+}
+
+.grade-card.grade-sec3 .grade-level {
+  text-shadow: 0 1px 1px rgba(255,255,255,0.35) !important;
+}
+
+@media (max-width: 480px) {
+  .grade-card .grade-level {
+    font-size: 0.9rem !important;
+    padding: 6px 16px !important;
+  }
+}
+
+.grade-card h3 {
+  font-size: 1.12rem !important;
+  font-weight: 900 !important;
+  color: var(--gc-title) !important;
+  margin-bottom: 8px !important;
+  letter-spacing: 0.2px !important;
+}
+
+.grade-card p {
+  font-size: 0.82rem !important;
+  color: var(--gc-text) !important;
+  line-height: 1.65 !important;
+  margin-bottom: 22px !important;
+  padding: 0 12px !important;
+  min-height: auto !important;
+}
+
+/* ── Grade button ── */
+.grade-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: var(--gc-btn-bg) !important;
+  color: var(--gc-btn-color) !important;
+  font-size: 0.87rem !important;
+  font-weight: 800 !important;
+  padding: 10px 24px !important;
+  border-radius: 12px !important;
+  text-decoration: none !important;
+  border: none !important;
+  margin-bottom: 28px !important;
+  box-shadow: 0 4px 14px var(--gc-btn-shadow) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease !important;
+  letter-spacing: 0.3px !important;
+}
+
+.grade-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px var(--gc-btn-shadow-hover) !important;
+  filter: brightness(1.1) !important;
+  background: var(--gc-btn-bg) !important;
+  color: var(--gc-btn-color) !important;
+}
+
+/* ── Hover: card lift ── */
+.grade-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.28), 0 0 0 1.5px var(--gc-hover-ring) !important;
+}
+
+.grade-card:hover .grade-card-glow {
+  filter: brightness(1.08) !important;
+}
+
+/* ══ CARD 1: الأول الثانوي — Indigo/Violet ══ */
+.grade-card.grade-sec1 {
+  --gc-bg: linear-gradient(155deg, #0e1535 0%, #12195e 60%, #0d1440 100%);
+  --gc-border: linear-gradient(135deg, rgba(99,102,241,0.7), rgba(139,92,246,0.4), rgba(99,102,241,0.15));
+  --gc-accent: linear-gradient(90deg, #6366f1, #818cf8, #a5b4fc);
+  --gc-icon-bg: linear-gradient(135deg, rgba(99,102,241,0.28), rgba(99,102,241,0.1));
+  --gc-icon-color: #a5b4fc;
+  --gc-icon-border: rgba(99,102,241,0.45);
+  --gc-icon-shadow: rgba(99,102,241,0.35);
+  --gc-badge-bg: linear-gradient(135deg, #6366f1, #4f46e5);
+  --gc-badge-color: #ffffff;
+  --gc-badge-border: rgba(165,180,252,0.6);
+  --gc-title: #e0e7ff;
+  --gc-text: #94a3b8;
+  --gc-btn-bg: linear-gradient(135deg, #6366f1, #4f46e5);
+  --gc-btn-color: #fff;
+  --gc-btn-shadow: rgba(99,102,241,0.4);
+  --gc-btn-shadow-hover: rgba(99,102,241,0.6);
+  --gc-hover-ring: rgba(99,102,241,0.5);
+}
+
+/* ══ CARD 2: الثاني الثانوي — Sky Blue ══ */
+.grade-card.grade-sec2 {
+  --gc-bg: linear-gradient(155deg, #051b2e 0%, #0c2d55 60%, #071e38 100%);
+  --gc-border: linear-gradient(135deg, rgba(56,189,248,0.7), rgba(14,165,233,0.4), rgba(56,189,248,0.15));
+  --gc-accent: linear-gradient(90deg, #38bdf8, #7dd3fc, #bae6fd);
+  --gc-icon-bg: linear-gradient(135deg, rgba(56,189,248,0.28), rgba(56,189,248,0.08));
+  --gc-icon-color: #7dd3fc;
+  --gc-icon-border: rgba(56,189,248,0.45);
+  --gc-icon-shadow: rgba(56,189,248,0.35);
+  --gc-badge-bg: linear-gradient(135deg, #0ea5e9, #0284c7);
+  --gc-badge-color: #ffffff;
+  --gc-badge-border: rgba(125,211,252,0.6);
+  --gc-title: #e0f2fe;
+  --gc-text: #94a3b8;
+  --gc-btn-bg: linear-gradient(135deg, #38bdf8, #0284c7);
+  --gc-btn-color: #fff;
+  --gc-btn-shadow: rgba(56,189,248,0.4);
+  --gc-btn-shadow-hover: rgba(56,189,248,0.6);
+  --gc-hover-ring: rgba(56,189,248,0.5);
+}
+
+/* ══ CARD 3: الثالث الثانوي — Gold ══ */
+.grade-card.grade-sec3 {
+  --gc-bg: linear-gradient(155deg, #1a1200 0%, #2d1f00 60%, #1c1400 100%);
+  --gc-border: linear-gradient(135deg, rgba(234,179,8,0.8), rgba(251,191,36,0.4), rgba(234,179,8,0.15));
+  --gc-accent: linear-gradient(90deg, #eab308, #fbbf24, #fde68a);
+  --gc-icon-bg: linear-gradient(135deg, rgba(234,179,8,0.28), rgba(234,179,8,0.08));
+  --gc-icon-color: #fde68a;
+  --gc-icon-border: rgba(234,179,8,0.5);
+  --gc-icon-shadow: rgba(234,179,8,0.4);
+  --gc-badge-bg: linear-gradient(135deg, #eab308, #ca8a04);
+  --gc-badge-color: #1c1400;
+  --gc-badge-border: rgba(253,230,138,0.7);
+  --gc-title: #fef9c3;
+  --gc-text: #a3a395;
+  --gc-btn-bg: linear-gradient(135deg, #eab308, #ca8a04);
+  --gc-btn-color: #0f0900;
+  --gc-btn-shadow: rgba(234,179,8,0.4);
+  --gc-btn-shadow-hover: rgba(234,179,8,0.65);
+  --gc-hover-ring: rgba(234,179,8,0.55);
+}
+
+/* Light mode: still dark cards (intentional — premium look) */
+[data-theme="light"] .grade-card.grade-sec1,
+[data-theme="light"] .grade-card.grade-sec2,
+[data-theme="light"] .grade-card.grade-sec3 {
+  /* keep dark — they look premium on any background */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grades-grid,
+  .grades-grid-secondary {
+    grid-template-columns: 1fr !important;
+    max-width: 340px !important;
+  }
+  .grade-card .grade-icon { margin-top: 24px !important; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grades-grid,
+  .grades-grid-secondary {
+    grid-template-columns: repeat(3,1fr) !important;
+    gap: 16px !important;
+  }
+  .grade-card h3 { font-size: 1rem !important; }
+}
+</style>
+</head>
+<body>
+    <div class="print-container">
+        <!-- Header -->
+        <div class="print-header">
+            <div class="school-logo">📚</div>
+            <div class="school-name">الدكتور في اللغة العربية</div>
+            <div class="school-subtitle">نتائج الاختبار الشامل</div>
+        </div>
+
+        <!-- Test Information -->
+        <div class="test-info">
+            <div class="test-info-item">
+                <div class="test-info-label">📖 اسم الاختبار</div>
+                <div class="test-info-value" id="testName">اختبار القراءة المحررة</div>
+            </div>
+            <div class="test-info-item">
+                <div class="test-info-label">📅 التاريخ</div>
+                <div class="test-info-value" id="testDate">25/06/2026</div>
+            </div>
+            <div class="test-info-item">
+                <div class="test-info-label">🏫 الصف الدراسي</div>
+                <div class="test-info-value" id="testGrade">السادس الثانوي</div>
+            </div>
+            <div class="test-info-item">
+                <div class="test-info-label">⏱️ المدة الزمنية</div>
+                <div class="test-info-value" id="testDuration">ساعتان</div>
+            </div>
+        </div>
+
+        <!-- Search Container -->
+        <div class="search-container" id="searchContainer">
+            <input type="text" id="searchInput" placeholder="🔍 ابحث عن طالب...">
+        </div>
+
+        <!-- Note -->
+        <div class="print-note">
+            <span class="print-note-icon">⚠️</span>
+            <span>تم إعداد هذا التقرير من قبل نظام إدارة الاختبارات. الدرجات المعروضة هي النتائج النهائية للطلاب.</span>
+        </div>
+
+        <!-- Section 1: Passed Students -->
+        <div class="results-section">
+            <div class="section-title">
+                <span class="section-title-icon">✅</span>
+                <span>الطلاب الناجحون</span>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat-box">
+                    <div class="stat-label">العدد الكلي</div>
+                    <div class="stat-value" id="passedCount">25</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">متوسط الدرجات</div>
+                    <div class="stat-value" id="passedAvg">78.5</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">أعلى درجة</div>
+                    <div class="stat-value" id="passedMax">95</div>
+                </div>
+            </div>
+
+            <table id="passedTable">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">#</th>
+                        <th>اسم الطالب</th>
+                        <th style="width: 150px;">الرقم الجلسة</th>
+                        <th style="width: 100px;">الدرجة</th>
+                        <th style="width: 100px;">النسبة %</th>
+                        <th style="width: 120px;">التقدير</th>
+                        <th style="width: 100px;">الحالة</th>
+                    </tr>
+                </thead>
+                <tbody id="passedTableBody">
+                    <!-- سيتم ملأها بواسطة JavaScript -->
+                </tbody>
+            </table>
+
+            <div id="noPassedData" class="no-data" style="display: none;">
+                لا توجد بيانات للطلاب الناجحين
+            </div>
+        </div>
+
+        <!-- Section 2: Absent Students -->
+        <div class="results-section">
+            <div class="section-title">
+                <span class="section-title-icon">⛔</span>
+                <span>الطلاب الغائبون</span>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat-box">
+                    <div class="stat-label">عدد الغائبين</div>
+                    <div class="stat-value" id="absentCount">5</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">نسبة الغياب</div>
+                    <div class="stat-value" id="absentPercentage">16.7%</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">الإجمالي المتوقع</div>
+                    <div class="stat-value" id="totalExpected">30</div>
+                </div>
+            </div>
+
+            <table id="absentTable">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">#</th>
+                        <th>اسم الطالب</th>
+                        <th style="width: 150px;">الرقم الجلسة</th>
+                        <th style="width: 120px;">سبب الغياب</th>
+                        <th style="width: 100px;">الحالة</th>
+                    </tr>
+                </thead>
+                <tbody id="absentTableBody">
+                    <!-- سيتم ملأها بواسطة JavaScript -->
+                </tbody>
+            </table>
+
+            <div id="noAbsentData" class="no-data" style="display: none;">
+                لا توجد غيابات
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="results-section">
+            <div class="section-title">
+                <span class="section-title-icon">📊</span>
+                <span>الملخص الإحصائي</span>
+            </div>
+
+            <table style="max-width: 500px;">
+                <tbody>
+                    <tr>
+                        <td style="font-weight: 700;">إجمالي الطلاب المتوقع حضورهم</td>
+                        <td style="text-align: center; font-weight: 700; color: #0284c7;" id="summaryTotal">30</td>
+                    </tr>
+                    <tr style="background: #c8e6c9;">
+                        <td style="font-weight: 700;">✅ الطلاب الناجحون</td>
+                        <td style="text-align: center; font-weight: 700; color: #1b5e20;" id="summaryPassed">25</td>
+                    </tr>
+                    <tr style="background: #ffcdd2;">
+                        <td style="font-weight: 700;">⛔ الطلاب الغائبون</td>
+                        <td style="text-align: center; font-weight: 700; color: #b71c1c;" id="summaryAbsent">5</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 700;">📈 معدل الحضور</td>
+                        <td style="text-align: center; font-weight: 700; color: #0284c7;" id="summaryAttendance">83.3%</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 700;">📊 متوسط الدرجات الكلي</td>
+                        <td style="text-align: center; font-weight: 700; color: #0284c7;" id="summaryAvg">78.5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="print-footer">
+            <div class="footer-item">
+                <span class="footer-label">تاريخ الطباعة:</span>
+                <span id="printDate">25/06/2026</span>
+            </div>
+            <div class="footer-item">
+                <span class="footer-label">تم إعداده بواسطة:</span>
+                <span>نظام الاختبارات الإلكترونية</span>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-container">
+            <button class="btn-print" onclick="window.print()">🖨️ طباعة التقرير</button>
+            <button class="btn-close" onclick="window.close()">✕ إغلاق</button>
+        </div>
+    </div>
+
+    <script>
+        // Sample Data (يمكن استبدالها ببيانات حقيقية من قاعدة البيانات)
+        const testData = {
+            testName: "اختبار القراءة المحررة",
+            testDate: "25/06/2026",
+            testGrade: "السادس الثانوي",
+            testDuration: "ساعتان",
+            passedStudents: [
+                { rank: 1, name: "أحمد محمود", rollNo: "001", score: 95, total: 100, percentage: 95, grade: "A" },
+                { rank: 2, name: "فاطمة علي", rollNo: "002", score: 92, total: 100, percentage: 92, grade: "A" },
+                { rank: 3, name: "محمد سالم", rollNo: "003", score: 88, total: 100, percentage: 88, grade: "A" },
+                { rank: 4, name: "سارة يوسف", rollNo: "004", score: 85, total: 100, percentage: 85, grade: "B" },
+                { rank: 5, name: "علي حسن", rollNo: "005", score: 82, total: 100, percentage: 82, grade: "B" },
+                { rank: 6, name: "نور إبراهيم", rollNo: "006", score: 80, total: 100, percentage: 80, grade: "B" },
+                { rank: 7, name: "مريم أحمد", rollNo: "007", score: 78, total: 100, percentage: 78, grade: "B" },
+                { rank: 8, name: "خالد عمر", rollNo: "008", score: 75, total: 100, percentage: 75, grade: "C" },
+                { rank: 9, name: "ليلى محمود", rollNo: "009", score: 72, total: 100, percentage: 72, grade: "C" },
+                { rank: 10, name: "إبراهيم طه", rollNo: "010", score: 70, total: 100, percentage: 70, grade: "C" },
+                { rank: 11, name: "زيد أنور", rollNo: "011", score: 68, total: 100, percentage: 68, grade: "C" },
+                { rank: 12, name: "رقية محمد", rollNo: "012", score: 65, total: 100, percentage: 65, grade: "C" },
+                { rank: 13, name: "جمال نصر", rollNo: "013", score: 62, total: 100, percentage: 62, grade: "D" },
+                { rank: 14, name: "هند محمود", rollNo: "014", score: 60, total: 100, percentage: 60, grade: "D" },
+                { rank: 15, name: "صلاح الدين", rollNo: "015", score: 58, total: 100, percentage: 58, grade: "D" },
+            ],
+            absentStudents: [
+                { rank: 1, name: "أسماء خالد", rollNo: "016", reason: "غياب مرضي" },
+                { rank: 2, name: "هاشم عبدالرحمن", rollNo: "017", reason: "ظرف طارئ" },
+                { rank: 3, name: "دينا محمود", rollNo: "018", reason: "غياب بدون عذر" },
+                { rank: 4, name: "ياسين أحمد", rollNo: "019", reason: "غياب مرضي" },
+                { rank: 5, name: "لمياء علي", rollNo: "020", reason: "ظرف طارئ" },
+            ]
+        };
+
+        // Initialize the page
+        function initializePage() {
+            // Fill test info
+            document.getElementById('testName').textContent = testData.testName;
+            document.getElementById('testDate').textContent = testData.testDate;
+            document.getElementById('testGrade').textContent = testData.testGrade;
+            document.getElementById('testDuration').textContent = testData.testDuration;
+            document.getElementById('printDate').textContent = testData.testDate;
+
+            // Load passed students
+            loadPassedStudents();
+            
+            // Load absent students
+            loadAbsentStudents();
+
+            // Calculate summary
+            calculateSummary();
+
+            // Setup search
+            setupSearch();
+        }
+
+        function loadPassedStudents() {
+            const tbody = document.getElementById('passedTableBody');
+            tbody.innerHTML = '';
+
+            if (testData.passedStudents.length === 0) {
+                document.getElementById('noPassedData').style.display = 'block';
+                return;
+            }
+
+            testData.passedStudents.forEach((student, index) => {
+                const row = document.createElement('tr');
+                const gradeClass = `grade-${student.grade.toLowerCase()}`;
+                
+                row.innerHTML = `
+                    <td class="rank">${student.rank}</td>
+                    <td>${student.name}</td>
+                    <td>${student.rollNo}</td>
+                    <td style="font-weight: 700; color: #0284c7;">${student.score}</td>
+                    <td style="font-weight: 700;">${student.percentage}%</td>
+                    <td><span class="grade ${gradeClass}">${student.grade}</span></td>
+                    <td><span class="status-passed">✅ نجح</span></td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+
+            // Update stats
+            const scores = testData.passedStudents.map(s => s.score);
+            const avg = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
+            const max = Math.max(...scores);
+
+            document.getElementById('passedCount').textContent = testData.passedStudents.length;
+            document.getElementById('passedAvg').textContent = avg;
+            document.getElementById('passedMax').textContent = max;
+        }
+
+        function loadAbsentStudents() {
+            const tbody = document.getElementById('absentTableBody');
+            tbody.innerHTML = '';
+
+            if (testData.absentStudents.length === 0) {
+                document.getElementById('noAbsentData').style.display = 'block';
+                return;
+            }
+
+            testData.absentStudents.forEach((student, index) => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td class="rank">${student.rank}</td>
+                    <td>${student.name}</td>
+                    <td>${student.rollNo}</td>
+                    <td>${student.reason}</td>
+                    <td><span class="status-absent">⛔ غائب</span></td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+
+            // Update stats
+            const total = testData.passedStudents.length + testData.absentStudents.length;
+            const percentage = ((testData.absentStudents.length / total) * 100).toFixed(1);
+
+            document.getElementById('absentCount').textContent = testData.absentStudents.length;
+            document.getElementById('absentPercentage').textContent = percentage + '%';
+            document.getElementById('totalExpected').textContent = total;
+        }
+
+        function calculateSummary() {
+            const passed = testData.passedStudents.length;
+            const absent = testData.absentStudents.length;
+            const total = passed + absent;
+            const attendance = ((passed / total) * 100).toFixed(1);
+            const avgScore = (testData.passedStudents.reduce((a, b) => a + b.score, 0) / passed).toFixed(1);
+
+            document.getElementById('summaryTotal').textContent = total;
+            document.getElementById('summaryPassed').textContent = passed;
+            document.getElementById('summaryAbsent').textContent = absent;
+            document.getElementById('summaryAttendance').textContent = attendance + '%';
+            document.getElementById('summaryAvg').textContent = avgScore;
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            
+            searchInput.addEventListener('keyup', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                // Filter passed students
+                const passedRows = document.querySelectorAll('#passedTableBody tr');
+                passedRows.forEach(row => {
+                    const name = row.textContent.toLowerCase();
+                    row.style.display = name.includes(searchTerm) ? '' : 'none';
+                });
+
+                // Filter absent students
+                const absentRows = document.querySelectorAll('#absentTableBody tr');
+                absentRows.forEach(row => {
+                    const name = row.textContent.toLowerCase();
+                    row.style.display = name.includes(searchTerm) ? '' : 'none';
+                });
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+<style id="dev-sig-v2">
+/* ═══════════════════════════════════════════════════════════
+   DEVELOPER SIGNATURE v2 — Full Redesign
+   ═══════════════════════════════════════════════════════════ */
+.dev-signature {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 32px 24px;
+  background: linear-gradient(180deg, #06080f 0%, #0a0d1a 100%);
+  border-top: 1px solid transparent;
+  background-clip: padding-box;
+  overflow: hidden;
+  font-family: 'Tajawal', sans-serif;
+}
+
+/* Animated gradient border top */
+.dev-signature::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    #38bdf8 20%,
+    #818cf8 40%,
+    #eab308 60%,
+    #facc15 80%,
+    transparent 100%
+  );
+  background-size: 300% 100%;
+  animation: devline-move 4s linear infinite;
+}
+
+@keyframes devline-move {
+  0%   { background-position: 0%   0; }
+  100% { background-position: 300% 0; }
+}
+
+/* Ambient background glow */
+.dev-signature::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 80px;
+  background: radial-gradient(ellipse, rgba(234,179,8,0.08) 0%, rgba(56,189,248,0.05) 50%, transparent 70%);
+  pointer-events: none;
+  animation: dev-ambient 5s ease-in-out infinite alternate;
+}
+
+@keyframes dev-ambient {
+  from { opacity: 0.5; transform: translateX(-50%) scaleX(0.8); }
+  to   { opacity: 1;   transform: translateX(-50%) scaleX(1.2); }
+}
+
+.dev-signature-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.dev-signature-text .dev-word-developer {
+  color: #38bdf8;
+  font-weight: 800;
+}
+
+.dev-signature-text .dev-word-design {
+  color: #eab308;
+  font-weight: 800;
+}
+
+.dev-signature-text .dev-word-by {
+  color: #4a5568;
+  font-weight: 500;
+}
+
+/* ── Main name link ── */
+.dev-signature-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 10px 22px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(56,189,248,0.07), rgba(234,179,8,0.09));
+  border: 1px solid rgba(234,179,8,0.22);
+  box-shadow: 0 0 0 1px rgba(234,179,8,0.06), 0 4px 16px rgba(234,179,8,0.08);
+  transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+}
+
+.dev-signature-link:hover {
+  transform: translateY(-3px) scale(1.045);
+  border-color: rgba(234,179,8,0.55);
+  background: linear-gradient(135deg, rgba(56,189,248,0.1), rgba(234,179,8,0.14));
+  box-shadow:
+    0 10px 30px rgba(234,179,8,0.2),
+    0 4px 14px rgba(56,189,248,0.14),
+    0 0 0 1px rgba(234,179,8,0.3);
+}
+
+/* Glow ping ring */
+.dev-signature-link::before {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(234,179,8,0.12));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.dev-signature-link:hover::before { opacity: 1; }
+
+/* Underline slide */
+.dev-signature-link::after {
+  content: '';
+  position: absolute;
+  bottom: 5px; left: 18px; right: 18px;
+  height: 1.5px;
+  background: linear-gradient(90deg, #38bdf8, #eab308, #facc15);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.dev-signature-link:hover::after { transform: scaleX(1); }
+
+/* Code icon */
+.dev-signature-link i.fa-code {
+  font-size: 0.88rem;
+  color: #38bdf8;
+  transition: color 0.3s ease, transform 0.35s ease;
+  animation: icon-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes icon-pulse {
+  0%,100% { color: #38bdf8; text-shadow: 0 0 0 rgba(56,189,248,0); }
+  50%     { color: #7dd3fc; text-shadow: 0 0 8px rgba(56,189,248,0.6); }
+}
+
+.dev-signature-link:hover i.fa-code {
+  color: #facc15;
+  transform: rotate(-10deg) scale(1.15);
+  animation: none;
+}
+
+/* ── The NAME ── */
+.dev-signature-name {
+  font-family: 'Tajawal', 'Segoe UI', sans-serif;
+  font-size: 1.26rem;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  background: linear-gradient(90deg,
+    #7dd3fc 0%,
+    #a5b4fc 25%,
+    #fde68a 55%,
+    #facc15 75%,
+    #fbbf24 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  transform-origin: center;
+  animation:
+    name-pulse 2.8s ease-in-out infinite,
+    name-shimmer 4s linear infinite;
+  background-size: 200% 100%;
+}
+
+@keyframes name-pulse {
+  0%,100% {
+    transform: scale(1);
+    filter: brightness(1) drop-shadow(0 0 4px rgba(250,204,21,0.18));
+  }
+  50% {
+    transform: scale(1.055);
+    filter: brightness(1.3) drop-shadow(0 0 14px rgba(250,204,21,0.6));
+  }
+}
+
+@keyframes name-shimmer {
+  0%   { background-position: 0%   0; }
+  100% { background-position: 200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dev-signature-name { animation: name-shimmer 4s linear infinite; }
+}
+
+@media print { .dev-signature { display: none !important; } }
+
+@media (max-width: 480px) {
+  .dev-signature { padding: 22px 14px; gap: 10px; }
+  .dev-signature-name { font-size: 1.08rem; }
+  .dev-signature-text { font-size: 0.78rem; }
+  .dev-signature-link { padding: 8px 16px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DEVELOPER CONTACT MODAL v3 — Premium
+   ═══════════════════════════════════════════════════════════ */
+.dev-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5,8,16,0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 999999;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.dev-modal-overlay.open {
+  display: flex;
+  opacity: 1;
+}
+
+.dev-modal-overlay.closing {
+  opacity: 0;
+}
+
+.dev-modal-box {
+  background: linear-gradient(160deg, #0a0f1f 0%, #0e1a3a 45%, #0a1226 100%);
+  border: 1px solid rgba(250,204,21,0.2);
+  border-radius: 28px;
+  padding: 38px 32px 30px;
+  width: min(92vw, 380px);
+  text-align: center;
+  font-family: 'Tajawal', sans-serif;
+  position: relative;
+  box-shadow:
+    0 40px 100px rgba(0,0,0,.65),
+    0 0 0 1px rgba(56,189,248,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  overflow: hidden;
+  transform: scale(0.9) translateY(16px);
+  opacity: 0;
+  transition: transform 0.32s cubic-bezier(.22,1,.36,1), opacity 0.28s ease;
+}
+
+.dev-modal-overlay.open .dev-modal-box {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.dev-modal-overlay.closing .dev-modal-box {
+  transform: scale(0.93) translateY(10px);
+  opacity: 0;
+}
+
+/* Modal inner glow top */
+.dev-modal-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, #eab308, #facc15, transparent);
+  opacity: 0.85;
+}
+
+/* Ambient background orb */
+.dev-modal-box::after {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(234,179,8,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.dev-modal-close {
+  position: absolute;
+  top: 14px; left: 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #64748b;
+  font-size: 0.95rem;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+  z-index: 10;
+}
+
+.dev-modal-close:hover {
+  background: rgba(239,68,68,0.2);
+  color: #f87171;
+  border-color: rgba(239,68,68,0.3);
+  transform: rotate(90deg);
+}
+
+/* ── Avatar: initials badge, no emoji ── */
+.dev-modal-avatar {
+  position: relative;
+  z-index: 5;
+  width: 76px; height: 76px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #6366f1 0%, #38bdf8 55%, #eab308 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  box-shadow:
+    0 8px 28px rgba(99,102,241,0.4),
+    0 0 0 3px rgba(99,102,241,0.12);
+  animation: avatar-glow 3.2s ease-in-out infinite;
+}
+
+.dev-modal-avatar span {
+  font-family: 'Outfit', 'Tajawal', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+@keyframes avatar-glow {
+  0%,100% { box-shadow: 0 8px 28px rgba(99,102,241,0.4), 0 0 0 3px rgba(99,102,241,0.12); }
+  50%     { box-shadow: 0 10px 34px rgba(234,179,8,0.4),  0 0 0 4px rgba(234,179,8,0.18); }
+}
+
+.dev-modal-name {
+  position: relative;
+  z-index: 5;
+  font-size: 1.26rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #7dd3fc, #a5b4fc, #fde68a, #facc15);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+.dev-modal-role {
+  position: relative;
+  z-index: 5;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 18px;
+  letter-spacing: 0.3px;
+}
+
+.dev-modal-bio {
+  position: relative;
+  z-index: 5;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #64748b;
+  margin: 0 0 22px;
+  padding: 0 4px;
+}
+
+.dev-modal-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, #38bdf8, #eab308);
+  margin: 0 auto 22px;
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+.dev-modal-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  z-index: 5;
+}
+
+.dev-modal-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 22px;
+  border-radius: 15px;
+  text-decoration: none;
+  font-size: 1.01rem;
+  font-weight: 800;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.2s ease;
+  border: none;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  letter-spacing: 0.2px;
+}
+
+.dev-modal-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.dev-modal-btn:active {
+  transform: translateY(0);
+}
+
+.dev-modal-btn-wa {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 60%, #15803d 100%);
+  color: #fff;
+  box-shadow: 0 5px 18px rgba(34,197,94,0.38);
+}
+
+.dev-modal-btn-wa:hover {
+  box-shadow: 0 10px 28px rgba(34,197,94,0.55);
+}
+
+.dev-modal-btn-call {
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 60%, #0284c7 100%);
+  color: #fff;
+  box-shadow: 0 5px 18px rgba(56,189,248,0.35);
+}
+
+.dev-modal-btn-call:hover {
+  box-shadow: 0 10px 28px rgba(56,189,248,0.55);
+}
+
+.dev-modal-btn i {
+  font-size: 1.15rem;
+}
+
+@media (max-width: 380px) {
+  .dev-modal-box { padding: 32px 22px 26px; }
+  .dev-modal-avatar { width: 68px; height: 68px; border-radius: 18px; }
+  .dev-modal-avatar span { font-size: 1.3rem; }
+  .dev-modal-name { font-size: 1.12rem; }
+}
+
+/* Light mode modal */
+[data-theme="light"] .dev-modal-box {
+  background: linear-gradient(145deg, #f8fbff 0%, #eef4ff 50%, #f3f8ff 100%);
+  border-color: rgba(234,179,8,0.35);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(56,189,248,0.12);
+}
+
+[data-theme="light"] .dev-modal-role { color: #475569; }
+[data-theme="light"] .dev-modal-bio { color: #64748b; }
+[data-theme="light"] .dev-modal-close { color: #374151; background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); }
+[data-theme="light"] .dev-modal-close:hover { background: rgba(239,68,68,0.12); color: #dc2626; }
+[data-theme="light"] .dev-modal-name {
+  background: linear-gradient(90deg, #0284c7, #6366f1, #ca8a04);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+</style>
+
+<!-- ══ Developer Contact Modal ══ -->
+<div class="dev-modal-overlay" id="devContactModal" onclick="if(event.target===this)closeDeveloperModal()">
+  <div class="dev-modal-box">
+    <button class="dev-modal-close" onclick="closeDeveloperModal()" aria-label="Close"><i class="fas fa-times"></i></button>
+    <div class="dev-modal-avatar"><span>AA</span></div>
+    <div class="dev-modal-name">Ahmed Amr Abo El-Hag</div>
+    <div class="dev-modal-role">Full-Stack Developer &amp; Platform Designer</div>
+    <p class="dev-modal-bio">مطوّر متكامل متخصص في بناء أنظمة تعليمية رقمية متقدمة — من التصميم وتجربة المستخدم إلى البرمجة والأداء.</p>
+    <div class="dev-modal-divider"></div>
+    <div class="dev-modal-btns">
+      <a href="https://wa.me/201001352771" target="_blank" rel="noopener" class="dev-modal-btn dev-modal-btn-wa">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
+      <a href="tel:+201001352771" class="dev-modal-btn dev-modal-btn-call">
+        <i class="fas fa-phone-alt"></i> Phone Call
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="dev-signature">
+  <a href="javascript:void(0)" class="dev-signature-link" onclick="openDeveloperModal()" title="Contact Developer">
+    <span class="dev-signature-name">Ahmed Amr Abo El-Hag</span>
+    <span class="dev-signature-text"><span class="dev-word-developer">Developer</span>:</span>
+    <i class="fas fa-code"></i>
+  </a>
+</div>
+
+<script>
+(function () {
+  window.openDeveloperModal = function() {
+    var m = document.getElementById('devContactModal');
+    if (!m) return;
+    m.classList.remove('closing');
+    m.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeDeveloperModal = function() {
+    var m = document.getElementById('devContactModal');
+    if (!m || !m.classList.contains('open')) return;
+    m.classList.add('closing');
+    document.body.style.overflow = '';
+    setTimeout(function () {
+      m.classList.remove('open');
+      m.classList.remove('closing');
+    }, 280);
+  };
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeDeveloperModal && window.closeDeveloperModal();
+  });
+})();
+</script>
+</body>
+</html>

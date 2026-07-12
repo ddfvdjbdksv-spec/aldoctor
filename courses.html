@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="الدكتور إبراهيم طناني - الكورسات المتاحة للغة العربية للثانوية الأزهرية">
+  <title>الكورسات المتاحة | الدكتور إبراهيم طناني</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900;1000&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    button{cursor:pointer;border:none;background:none;font-family:inherit}
+    :root{
+      --white:#FFFFFF;
+      --blue-mid:#2563EB;--blue-bright:#3B82F6;--blue-pale:#DBEAFE;
+      --purple-mid:#7C3AED;--purple-light:#C4B5FD;
+      --gold:#F59E0B;--gold-dark:#B45309;
+      --text-dark:#0f172a;--text-soft:#475569;
+      --grad-bg:linear-gradient(160deg,#e8f0fe 0%,#dbeafe 35%,#ede9fe 70%,#e0f2fe 100%);
+      --grad-btn:linear-gradient(135deg,#1a2a6c 0%,#2563EB 50%,#3B82F6 100%);
+      --grad-btn2:linear-gradient(135deg,#312e81 0%,#7C3AED 50%,#8B5CF6 100%);
+      --grad-gold:linear-gradient(135deg,#B45309 0%,#D97706 30%,#F59E0B 60%,#FBBF24 85%,#FDE68A 100%);
+      --sh-card:0 4px 24px rgba(37,99,235,.08),0 1px 4px rgba(37,99,235,.04);
+      --sh-card-hover:0 20px 60px rgba(37,99,235,.18),0 4px 16px rgba(37,99,235,.10);
+      --sh-btn:0 6px 28px rgba(37,99,235,.40),0 2px 8px rgba(37,99,235,.20);
+      --sh-gold:0 4px 20px rgba(245,158,11,.50),0 2px 8px rgba(180,83,9,.30);
+      --r-md:16px;--r-lg:24px;--r-xl:32px;--r-f:9999px;
+      --ease:all .30s cubic-bezier(.4,0,.2,1);
+      --ease-bounce:all .45s cubic-bezier(.34,1.56,.64,1);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Cairo',sans-serif;background:var(--grad-bg);min-height:100vh;color:var(--text-dark);overflow-x:hidden;direction:rtl;line-height:1.6}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:var(--blue-pale)}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--blue-mid),var(--purple-mid));border-radius:var(--r-f)}
+
+    /* BG */
+    .bg-canvas{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .bg-orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat 12s ease-in-out infinite}
+    .bg-orb-1{width:500px;height:500px;background:radial-gradient(circle,rgba(59,130,246,.20) 0%,transparent 70%);top:-150px;right:-100px}
+    .bg-orb-2{width:400px;height:400px;background:radial-gradient(circle,rgba(124,58,237,.18) 0%,transparent 70%);bottom:-100px;left:-80px;animation-delay:4s}
+    .bg-orb-3{width:300px;height:300px;background:radial-gradient(circle,rgba(6,182,212,.15) 0%,transparent 70%);top:50%;left:30%;animation-delay:8s}
+    .bg-orb-4{width:250px;height:250px;background:radial-gradient(circle,rgba(245,158,11,.10) 0%,transparent 70%);top:30%;right:15%;animation-delay:2s}
+    @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.08)}66%{transform:translate(-20px,20px) scale(.95)}}
+    .particles-canvas{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.6}
+
+    /* HEADER */
+    .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.72);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(59,130,246,.12);transition:var(--ease)}
+    .header.scrolled{background:rgba(255,255,255,.95);box-shadow:0 4px 32px rgba(37,99,235,.10)}
+    .header-inner{max-width:600px;margin:0 auto;padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .hamburger-btn{display:flex;flex-direction:column;gap:5px;width:36px;height:36px;align-items:center;justify-content:center;border-radius:8px;background:rgba(59,130,246,.08);transition:var(--ease);flex-shrink:0}
+    .hamburger-btn span{display:block;width:20px;height:2.5px;background:var(--blue-mid);border-radius:2px;transition:var(--ease)}
+    .hamburger-btn.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .hamburger-btn.open span:nth-child(2){opacity:0;width:0}
+    .hamburger-btn.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+    .toggle-track{position:relative;width:52px;height:28px;background:linear-gradient(135deg,var(--blue-mid),var(--purple-mid));border-radius:14px;cursor:pointer;box-shadow:0 2px 12px rgba(37,99,235,.30);flex-shrink:0}
+    .toggle-thumb{position:absolute;top:4px;right:4px;width:20px;height:20px;background:white;border-radius:50%;transition:var(--ease-bounce);display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 2px 8px rgba(0,0,0,.20)}
+    .header-profile{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .header-profile-text{text-align:right}
+    .header-name{font-size:.92rem;font-weight:800;color:var(--text-dark);line-height:1.2}
+    .header-role{font-size:.72rem;color:var(--text-soft);font-weight:500}
+    .header-avatar{width:42px;height:42px;border-radius:50%;overflow:hidden;border:2.5px solid transparent;background:linear-gradient(var(--white),var(--white)) padding-box,linear-gradient(135deg,var(--blue-mid),var(--purple-mid)) border-box;box-shadow:0 3px 14px rgba(37,99,235,.25);flex-shrink:0}
+    .header-avatar img{width:100%;height:100%;object-fit:cover;object-position:top center}
+    .nav-drawer{position:fixed;top:64px;right:0;width:280px;height:calc(100vh - 64px);background:rgba(255,255,255,.96);backdrop-filter:blur(24px);z-index:99;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);padding:24px 20px;overflow-y:auto;box-shadow:-4px 0 30px rgba(37,99,235,.12)}
+    .nav-drawer.open{transform:translateX(0)}
+    .nav-overlay{position:fixed;inset:64px 0 0;background:rgba(15,23,42,.35);backdrop-filter:blur(4px);z-index:98;opacity:0;pointer-events:none;transition:opacity .35s ease}
+    .nav-overlay.show{opacity:1;pointer-events:all}
+    .nav-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--r-md);color:var(--text-soft);font-weight:600;font-size:.95rem;transition:var(--ease);margin-bottom:4px}
+    .nav-item:hover,.nav-item.active{background:linear-gradient(135deg,rgba(37,99,235,.08),rgba(124,58,237,.06));color:var(--blue-mid)}
+    .nav-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(124,58,237,.08));display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+
+    /* PAGE */
+    .page-wrapper{max-width:600px;margin:0 auto;padding:28px 16px 120px;position:relative;z-index:2}
+
+    /* HERO */
+    .section-hero{text-align:center;margin-bottom:32px;padding:24px 16px 8px}
+    .section-icon-wrap{display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(124,58,237,.10));border-radius:var(--r-xl);margin-bottom:16px;font-size:2.2rem;position:relative;box-shadow:0 4px 20px rgba(37,99,235,.15);animation:iconFloat 4s ease-in-out infinite}
+    @keyframes iconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .section-icon-sparkle{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(245,158,11,.6)}
+    .sp1{top:-3px;right:-3px;animation:sp 2s ease-in-out infinite}
+    .sp2{bottom:0;left:-5px;animation:sp 2s ease-in-out infinite .7s;width:7px;height:7px}
+    @keyframes sp{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.4);opacity:1}}
+    .section-title{font-size:clamp(1.9rem,6vw,2.4rem);font-weight:900;color:var(--text-dark);line-height:1.2;margin-bottom:10px;letter-spacing:-.5px}
+    .hl{background:linear-gradient(135deg,var(--blue-mid),var(--purple-mid));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .section-desc{font-size:.9rem;color:var(--text-soft);line-height:1.8;max-width:380px;margin:0 auto}
+    .deco-dots{display:flex;align-items:center;justify-content:center;gap:6px;margin:12px 0}
+    .deco-dot{width:5px;height:5px;border-radius:50%;animation:dp 2s ease-in-out infinite}
+    .deco-dot:nth-child(1){background:var(--blue-mid)}
+    .deco-dot:nth-child(2){background:var(--purple-mid);animation-delay:.3s;width:8px;height:8px}
+    .deco-dot:nth-child(3){background:var(--blue-mid);animation-delay:.6s}
+
+    /* COURSES */
+    .courses-stack{display:flex;flex-direction:column;gap:28px}
+    .course-card{position:relative;background:var(--white);border-radius:32px;overflow:visible;display:flex;flex-direction:row-reverse;min-height:300px;transition:transform .40s cubic-bezier(.34,1.56,.64,1),box-shadow .40s ease;border:2px solid rgba(255,255,255,.85)}
+    .course-card:hover{transform:translateY(-8px) scale(1.015);box-shadow:var(--sh-card-hover)}
+    
+    /* Blue Theme Card Specifics */
+    .course-card.t-blue {
+        box-shadow: 0 12px 40px rgba(37,99,235,.08), 0 0 25px rgba(37,99,235,.04);
+    }
+    .course-card.t-blue:hover {
+        box-shadow: 0 24px 70px rgba(37,99,235,.20), 0 0 35px rgba(37,99,235,.10);
+    }
+    .course-card.t-blue .card-img-section{
+        background:linear-gradient(160deg,#cce4ff 0%,#a8d4ff 40%,#dbeafe 100%);
+        border-right: 4px solid rgba(255,255,255,0.95);
+        box-shadow: 4px 0 15px rgba(59,130,246,0.35);
+    }
+    .course-card.t-blue .img-glow{background:radial-gradient(ellipse 80% 90% at 50% 100%,rgba(59,130,246,.5) 0%,transparent 70%)}
+    .course-card.t-blue .img-top{background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(147,197,253,.7) 0%,transparent 70%)}
+    .course-card.t-blue .acc-line{background:linear-gradient(90deg,#3B82F6,#2563EB,#1D4ED8)}
+    .course-card.t-blue .info-chip{background:rgba(219,234,254,.45);border-color:rgba(59,130,246,.15)}
+    .course-card.t-blue .chip-icon-circle{background:#dbeafe; color:var(--blue-mid)}
+    .course-card.t-blue .cta-btn{
+        background:linear-gradient(105deg, #2563EB 0%, #3B82F6 40%, #fbbf24 85%, #f59e0b 100%);
+        box-shadow: 0 12px 40px rgba(37,99,235,.55), 0 6px 20px rgba(245,158,11,.35);
+    }
+    .course-card.t-blue .cta-btn:hover{box-shadow:0 16px 52px rgba(37,99,235,.70), 0 8px 28px rgba(245,158,11,.50)}
+    .course-card.t-blue .btn-icon-l{background:#2563EB;}
+
+    /* Purple Theme Card Specifics */
+    .course-card.t-purple {
+        box-shadow: 0 12px 40px rgba(124,58,237,.08), 0 0 25px rgba(124,58,237,.04);
+    }
+    .course-card.t-purple:hover {
+        box-shadow: 0 24px 70px rgba(124,58,237,.20), 0 0 35px rgba(124,58,237,.10);
+    }
+    .course-card.t-purple .card-img-section{
+        background:linear-gradient(160deg,#ddd6fe 0%,#c4b5fd 40%,#ede9fe 100%);
+        border-right: 4px solid rgba(255,255,255,0.95);
+        box-shadow: 4px 0 15px rgba(124,58,237,0.35);
+    }
+    .course-card.t-purple .img-glow{background:radial-gradient(ellipse 80% 90% at 50% 100%,rgba(124,58,237,.5) 0%,transparent 70%)}
+    .course-card.t-purple .img-top{background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(196,181,253,.7) 0%,transparent 70%)}
+    .course-card.t-purple .acc-line{background:linear-gradient(90deg,#7C3AED,#6D28D9,#5B21B6)}
+    .course-card.t-purple .info-chip{background:rgba(237,233,254,.45);border-color:rgba(124,58,237,.15)}
+    .course-card.t-purple .chip-icon-circle{background:#ede9fe; color:var(--purple-mid)}
+    .course-card.t-purple .cta-btn{
+        background:linear-gradient(105deg, #7C3AED 0%, #8B5CF6 40%, #fbbf24 85%, #f59e0b 100%);
+        box-shadow: 0 12px 40px rgba(124,58,237,.55), 0 6px 20px rgba(245,158,11,.35);
+    }
+    .course-card.t-purple .cta-btn:hover{box-shadow:0 16px 52px rgba(124,58,237,.70), 0 8px 28px rgba(245,158,11,.50)}
+    .course-card.t-purple .btn-icon-l{background:#7C3AED;}
+
+    .acc-line{position:absolute;top:0;left:0;right:0;height:3px;z-index:10}
+    .card-img-section{position:relative;width:42%;flex-shrink:0;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;border-radius:30px 140px 140px 30px;transition:var(--ease)}
+    .img-glow{position:absolute;bottom:0;left:0;right:0;height:65%;pointer-events:none}
+    .img-top{position:absolute;top:0;left:0;right:0;height:40%;pointer-events:none}
+    .cp-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .cp{position:absolute;border-radius:50%;animation:cpf linear infinite}
+    @keyframes cpf{0%{transform:translateY(100%) scale(0);opacity:0}10%{opacity:1}90%{opacity:.6}100%{transform:translateY(-120%) scale(1);opacity:0}}
+    .dstar{position:absolute;pointer-events:none;opacity:.4}
+    .ds1{top:12px;left:12px;font-size:14px;animation:df 3s ease-in-out infinite}
+    .ds2{top:35%;right:8px;font-size:10px;animation:df 3s ease-in-out infinite 1.5s;opacity:.3}
+    @keyframes df{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(15deg)}}
+    .dring{position:absolute;border-radius:50%;border:1.5px solid rgba(255,255,255,.40);pointer-events:none}
+    .ra{width:70px;height:70px;top:8px;right:8px;animation:rp 4s ease-in-out infinite}
+    .rb{width:50px;height:50px;bottom:30px;left:8px;animation:rp 4s ease-in-out infinite 2s}
+    @keyframes rp{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(1.15);opacity:.7}}
+    .teacher-img{position:relative;z-index:5;width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .50s cubic-bezier(.34,1.56,.64,1)}
+    .course-card:hover .teacher-img{transform:scale(1.04) translateY(-4px)}
+    .card-content{flex:1;padding:22px 22px 20px 22px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;position:relative}
+
+    /* FREE Ribbon Badge */
+    .free-badge{position:absolute;top:12px;right:-10px;z-index:20;background:var(--grad-gold);color:#3d1a00;font-size:.8rem;font-weight:800;padding:7px 12px 7px 18px;border-radius:12px 4px 4px 12px;display:flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(245,158,11,0.4);overflow:visible}
+    .free-badge::before{
+        content:'' !important;
+        position:absolute !important;
+        top:100% !important;
+        right:0 !important;
+        width:0 !important;
+        height:0 !important;
+        border-style:solid !important;
+        border-width:6px 10px 0 0 !important;
+        border-color:#b45309 transparent transparent transparent !important;
+        background:none !important;
+        box-shadow:none !important;
+        border-radius:0 !important;
+    }
+    .free-badge::after{content:'';position:absolute;top:-10px;left:-10px;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);animation:bs 3s ease-in-out infinite}
+    @keyframes bs{0%{transform:translateX(-100%) rotate(45deg)}60%,100%{transform:translateX(100%) rotate(45deg)}}
+    .badge-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(251,191,36,.4) 0%,transparent 70%);border-radius:inherit;animation:bg2 2s ease-in-out infinite}
+    @keyframes bg2{0%,100%{opacity:.6}50%{opacity:1}}
+    .badge-icon{position:relative;z-index:1;font-size:.85rem}
+    .badge-text{position:relative;z-index:1}
+    .course-title{font-size:clamp(1.2rem,4vw,1.4rem);font-weight:900;color:var(--text-dark);line-height:1.3;margin-bottom:8px;letter-spacing:-.3px}
+    .course-desc{font-size:.82rem;color:var(--text-soft);line-height:1.75;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-weight:500}
+    .info-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+    .info-chip{border-radius:20px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;border:1px solid transparent;transition:transform 0.28s cubic-bezier(.34,1.56,.64,1), box-shadow 0.28s ease, background 0.25s ease}
+    .info-chip:hover{transform:translateY(-4px);box-shadow:0 6px 18px rgba(37,99,235,.15)}
+    .chip-icon-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.95rem;margin-bottom:2px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.2)}
+    .chip-val{font-size:.88rem;font-weight:800;color:var(--text-dark);line-height:1}
+    .chip-label{font-size:.65rem;font-weight:700;text-align:center;line-height:1.2;color:var(--text-soft)}
+    .cta-btn{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--white);padding:0 18px 0 14px;border-radius:26px;font-size:1.05rem;font-weight:900;font-family:'Cairo',sans-serif;transition:transform .40s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease;position:relative;overflow:hidden;min-height:62px;width:100%}
+    .cta-btn::after{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.30),transparent);transform:skewX(-20deg);animation:cs 3.5s ease-in-out infinite}
+    @keyframes cs{0%{left:-60%;opacity:0}15%{opacity:1}50%,100%{left:140%;opacity:0}}
+    .cta-btn:hover{transform:translateY(-5px) scale(1.02)}
+    .btn-icon-r {
+        flex-shrink: 0;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
+    }
+    .cta-btn:hover .btn-icon-r {
+        transform: translateY(-2px) scale(1.12);
+    }
+    .btn-icon-l {
+        flex-shrink: 0;
+        width: 38px; height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        border: 1.5px solid rgba(255,255,255,0.40);
+        box-shadow: 0 4px 12px rgba(255,255,255,0.15);
+        transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), background 0.3s ease;
+    }
+    .cta-btn:hover .btn-icon-l {
+        transform: translateX(-5px) scale(1.1);
+    }
+    .btn-text{flex:1; text-align:center; text-shadow: 0 2px 4px rgba(0,0,0,0.15)}
+    .card-top{flex:1}
+
+    /* BOTTOM CTA */
+    .bottom-cta{margin-top:32px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);border-radius:var(--r-xl);padding:28px 24px;text-align:center;border:1px solid rgba(59,130,246,.12);box-shadow:var(--sh-card);position:relative;overflow:hidden}
+    .bottom-cta::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue-mid),var(--purple-mid),var(--gold))}
+    .cta-icon{font-size:2rem;margin-bottom:10px;display:inline-block;animation:iconFloat 3s ease-in-out infinite}
+    .cta-title{font-size:1.25rem;font-weight:900;color:var(--text-dark);margin-bottom:8px}
+    .cta-title .hl{background:linear-gradient(135deg,var(--gold),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .cta-desc{font-size:.82rem;color:var(--text-soft);line-height:1.7}
+
+    /* WHATSAPP */
+    .wa-fab{position:fixed;bottom:24px;left:20px;z-index:200;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37,211,102,.50),0 0 0 0 rgba(37,211,102,.35);animation:wap 2.5s ease-in-out infinite;transition:transform .30s cubic-bezier(.34,1.56,.64,1)}
+    .wa-fab:hover{transform:scale(1.15)}
+    .wa-fab svg{width:28px;height:28px;fill:white}
+    @keyframes wap{0%{box-shadow:0 6px 24px rgba(37,211,102,.50),0 0 0 0 rgba(37,211,102,.35)}60%{box-shadow:0 6px 24px rgba(37,211,102,.50),0 0 0 14px rgba(37,211,102,0)}100%{box-shadow:0 6px 24px rgba(37,211,102,.50),0 0 0 0 rgba(37,211,102,0)}}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .65s ease,transform .65s cubic-bezier(.34,1.56,.64,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .d1{transition-delay:.10s}.d2{transition-delay:.20s}.d3{transition-delay:.30s}
+
+    /* RESPONSIVE */
+    @media(max-width:400px){
+      .page-wrapper{padding:20px 12px 100px}
+      .card-img-section{width:38%}
+      .card-content{padding:16px 14px 14px}
+      .info-row{gap:4px}
+      .info-chip{padding:6px 2px}
+      .chip-val{font-size:.68rem}
+      .chip-label{font-size:.58rem}
+      .cta-btn{padding:0 12px;font-size:.9rem;min-height:54px}
+      .section-title{font-size:1.7rem}
+    }
+    @media(min-width:560px){.page-wrapper{padding:32px 24px 120px}}
+    @media(min-width:768px){
+      .page-wrapper{max-width:700px}
+      .course-card{min-height:300px}
+      .card-img-section{width:45%}
+      .card-content{padding:24px 22px 20px}
+      .section-title{font-size:2.6rem}
+    }
+    @media(min-width:1024px){.page-wrapper{max-width:780px}}
+
+    /* SPLASH */
+    .splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#e8f0fe,#dbeafe,#ede9fe);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .6s ease,visibility .6s ease}
+    .splash.hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .splash-logo{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--blue-mid),var(--purple-mid));display:flex;align-items:center;justify-content:center;font-size:2.5rem;box-shadow:0 8px 30px rgba(37,99,235,.40);animation:spl .8s cubic-bezier(.34,1.56,.64,1) both}
+    @keyframes spl{from{transform:scale(0) rotate(-30deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+    .splash-text{font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,var(--blue-mid),var(--purple-mid));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:sfu .8s ease .3s both}
+    .splash-sub{font-size:.85rem;color:var(--text-soft);animation:sfu .8s ease .5s both}
+    .splash-bar-wrap{width:200px;height:4px;background:rgba(37,99,235,.12);border-radius:var(--r-f);overflow:hidden;animation:sfu .8s ease .6s both}
+    .splash-bar{height:100%;background:linear-gradient(90deg,var(--blue-mid),var(--purple-mid),var(--gold));border-radius:var(--r-f);width:0%;transition:width .1s linear}
+    @keyframes sfu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+
+  <div class="splash" id="splash">
+    <div class="splash-logo">📚</div>
+    <div class="splash-text">الدكتور إبراهيم طناني</div>
+    <div class="splash-sub">في اللغة العربية</div>
+    <div class="splash-bar-wrap"><div class="splash-bar" id="splashBar"></div></div>
+  </div>
+
+  <div class="bg-canvas">
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+    <div class="bg-orb bg-orb-4"></div>
+  </div>
+  <canvas class="particles-canvas" id="particlesCanvas"></canvas>
+
+  <header class="header" id="mainHeader">
+    <div class="header-inner">
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="القائمة" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="toggle-track" id="themeToggle" tabindex="0" role="switch" aria-checked="false">
+        <div class="toggle-thumb" id="toggleThumb"><span id="toggleIcon">☀️</span></div>
+      </div>
+      <div class="header-profile">
+        <div class="header-profile-text">
+          <div class="header-name">الدكتور</div>
+          <div class="header-role">في اللغة العربية</div>
+        </div>
+        <div class="header-avatar">
+          <img src="ايقونة الهدر.png" alt="الدكتور" onerror="this.src='المدرس_بدون_خلفية.png'">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="nav-overlay" id="navOverlay"></div>
+  <nav class="nav-drawer" id="navDrawer" aria-hidden="true">
+    <a href="index.html" class="nav-item active"><div class="nav-icon">🏠</div><span>الرئيسية</span></a>
+    <a href="lessons.html" class="nav-item"><div class="nav-icon">🎬</div><span>الدروس</span></a>
+    <a href="tests.html" class="nav-item"><div class="nav-icon">📝</div><span>الاختبارات</span></a>
+    <a href="dashboard.html" class="nav-item"><div class="nav-icon">📊</div><span>لوحة التحكم</span></a>
+    <a href="profile.html" class="nav-item"><div class="nav-icon">👤</div><span>الملف الشخصي</span></a>
+  </nav>
+
+  <main class="page-wrapper">
+
+    <div class="section-hero reveal" id="sectionHero">
+      <div class="section-icon-wrap">
+        🎓
+        <div class="section-icon-sparkle sp1"></div>
+        <div class="section-icon-sparkle sp2"></div>
+      </div>
+      <div class="deco-dots">
+        <div class="deco-dot"></div><div class="deco-dot"></div><div class="deco-dot"></div>
+      </div>
+      <h1 class="section-title">الكورسات <span class="hl">المتاحة</span></h1>
+      <p class="section-desc">ابدأ رحلتك التعليمية الآن مع أقوى الكورسات المتخصصة للتفوق والريادة في اللغة العربية</p>
+    </div>
+
+    <div class="courses-stack">
+
+      <article class="course-card t-blue reveal d1" id="courseCard1">
+        <div class="acc-line"></div>
+        <div class="free-badge"><div class="badge-glow"></div><span class="badge-icon">🎁</span><span class="badge-text">كورس مجاني</span></div>
+        <div class="card-img-section">
+          <div class="img-top"></div>
+          <div class="img-glow"></div>
+          <div class="cp-wrap" id="cp1"></div>
+          <div class="dstar ds1">✦</div>
+          <div class="dstar ds2">✦</div>
+          <div class="dring ra"></div>
+          <div class="dring rb"></div>
+          <img src="المدرس_بدون_خلفية.png" alt="الدكتور إبراهيم طناني" class="teacher-img" loading="lazy" onerror="this.src='المدرس_شفاف_نهائي.png'">
+        </div>
+        <div class="card-content">
+          <div class="card-top">
+            <h2 class="course-title">المراجعه النهائيه في الصرف</h2>
+            <p class="course-desc">المراجعة النهائية في الصرف: إتقان المواضع العشرة، إبدال الواو ياء، الألف باء وجميع الإبدالات لثالث ثانوي أزهري.</p>
+            <div class="info-row">
+              <div class="info-chip"><span class="chip-icon-circle">✅</span><span class="chip-val">اختيار</span><span class="chip-label">تدريبي</span></div>
+              <div class="info-chip"><span class="chip-icon-circle">📄</span><span class="chip-val">ملفات</span><span class="chip-label">PDF</span></div>
+              <div class="info-chip"><span class="chip-icon-circle">⏰</span><span class="chip-val">2</span><span class="chip-label">دقيقة</span></div>
+              <div class="info-chip"><span class="chip-icon-circle">▶️</span><span class="chip-val">1</span><span class="chip-label">محاضرة</span></div>
+            </div>
+          </div>
+          <a href="lessons.html" class="cta-btn" id="courseBtn1">
+            <span class="btn-icon-r">🎓</span>
+            <span class="btn-text">الدخول للكورس</span>
+            <span class="btn-icon-l">←</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="course-card t-purple reveal d2" id="courseCard2">
+        <div class="acc-line"></div>
+        <div class="free-badge"><div class="badge-glow"></div><span class="badge-icon">🎁</span><span class="badge-text">كورس مجاني</span></div>
+        <div class="card-img-section">
+          <div class="img-top"></div>
+          <div class="img-glow"></div>
+          <div class="cp-wrap" id="cp2"></div>
+          <div class="dstar ds1">✦</div>
+          <div class="dstar ds2">✦</div>
+          <div class="dring ra"></div>
+          <div class="dring rb"></div>
+          <img src="المدرس_بدون_خلفية_جديد.png" alt="الدكتور إبراهيم طناني" class="teacher-img" loading="lazy" onerror="this.src='المدرس_بدون_خلفية.png'">
+        </div>
+        <div class="card-content">
+          <div class="card-top">
+            <h2 class="course-title">المراجعه النهائيه في النحو</h2>
+            <p class="course-desc">مراجعة شاملة لقواعد النحو من الصفر حتى الاحتراف مع أهم التريكات وأسئلة متوقعة في الامتحان.</p>
+            <div class="info-row">
+              <div class="info-chip"><span class="chip-icon-circle">✅</span><span class="chip-val">اختيار</span><span class="chip-label">تدريبي</span></div>
+              <div class="info-chip"><span class="chip-icon-circle">📄</span><span class="chip-val">ملفات</span><span class="chip-label">PDF</span></div>
+              <div class="info-chip"><span class="chip-icon-circle">⏰</span><span class="chip-val">3</span><span class="chip-label">دقيقة</span></div>
+              <div class="info-chip"><span class="chip-icon-circle">▶️</span><span class="chip-val">1</span><span class="chip-label">محاضرة</span></div>
+            </div>
+          </div>
+          <a href="lessons.html" class="cta-btn" id="courseBtn2">
+            <div class="btn-icon">🎓</div>
+            <span class="btn-text">الدخول للكورس</span>
+            <span class="btn-arrow">←</span>
+          </a>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="bottom-cta reveal d3" id="bottomCta">
+      <div class="cta-icon">🎓</div>
+      <h2 class="cta-title">تعلّم، تدرب، <span class="hl">وتفوق!</span> ✨</h2>
+      <p class="cta-desc">كل كورس مصمم بعناية ليمنحك أفضل تجربة تعليمية</p>
+    </div>
+
+  </main>
+
+  <a href="https://wa.me/201028164601" class="wa-fab" id="whatsappFab" aria-label="تواصل عبر واتساب" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script>
+  'use strict';
+  const $=id=>document.getElementById(id);
+  const $$=sel=>document.querySelectorAll(sel);
+
+  // Splash
+  (function(){
+    const s=$('splash'),b=$('splashBar');if(!s)return;
+    let p=0;
+    const iv=setInterval(()=>{
+      p+=Math.random()*18+6;if(p>100)p=100;
+      b.style.width=p+'%';
+      if(p>=100){clearInterval(iv);setTimeout(()=>s.classList.add('hidden'),300)}
+    },90);
+  })();
+
+  // Header scroll
+  (function(){
+    const h=$('mainHeader');if(!h)return;
+    let t=false;
+    window.addEventListener('scroll',()=>{
+      if(!t){requestAnimationFrame(()=>{h.classList.toggle('scrolled',scrollY>20);t=false});t=true}
+    },{passive:true});
+  })();
+
+  // Nav
+  (function(){
+    const btn=$('hamburgerBtn'),drawer=$('navDrawer'),overlay=$('navOverlay');
+    if(!btn)return;let open=false;
+    function toggle(s){
+      open=s!==undefined?s:!open;
+      btn.classList.toggle('open',open);
+      drawer.classList.toggle('open',open);
+      overlay.classList.toggle('show',open);
+      btn.setAttribute('aria-expanded',open);
+      drawer.setAttribute('aria-hidden',!open);
+      document.body.style.overflow=open?'hidden':'';
+    }
+    btn.addEventListener('click',()=>toggle());
+    overlay.addEventListener('click',()=>toggle(false));
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&open)toggle(false)});
+    $$('.nav-item').forEach(i=>i.addEventListener('click',()=>toggle(false)));
+  })();
+
+  // Background particles
+  (function(){
+    const canvas=$('particlesCanvas');if(!canvas)return;
+    const ctx=canvas.getContext('2d');
+    function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+    resize();window.addEventListener('resize',resize,{passive:true});
+    const COLS=['rgba(59,130,246,VAL)','rgba(124,58,237,VAL)','rgba(6,182,212,VAL)','rgba(245,158,11,VAL)','rgba(147,197,253,VAL)'];
+    const ps=[];const N=innerWidth<600?24:42;
+    function mk(){return{x:Math.random()*canvas.width,y:canvas.height+20,r:Math.random()*3+1,vx:(Math.random()-.5)*.6,vy:-(Math.random()*.8+.3),al:Math.random()*.4+.1,col:COLS[Math.floor(Math.random()*COLS.length)],life:0,max:Math.random()*400+200}}
+    for(let i=0;i<N;i++){const p=mk();p.y=Math.random()*canvas.height;p.life=Math.random()*p.max;ps.push(p)}
+    function draw(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ps.forEach((p,i)=>{
+        p.x+=p.vx;p.y+=p.vy;p.life++;
+        const pr=p.life/p.max;const fd=pr<.1?pr*10:pr>.85?(1-pr)/.15:1;
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=p.col.replace('VAL',(p.al*fd).toFixed(2));ctx.fill();
+        if(p.life>=p.max||p.y<-20)ps[i]=mk();
+      });
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  })();
+
+  // Card particles
+  (function(){
+    function add(id,colors){
+      const c=$(id);if(!c)return;
+      for(let i=0;i<10;i++){
+        const p=document.createElement('div');p.className='cp';
+        const sz=Math.random()*5+2,lf=Math.random()*100,dur=Math.random()*5+4,del=Math.random()*6;
+        const col=colors[Math.floor(Math.random()*colors.length)];
+        p.style.cssText=`width:${sz}px;height:${sz}px;left:${lf}%;background:${col};opacity:${.2+Math.random()*.4};animation-duration:${dur}s;animation-delay:${del}s`;
+        c.appendChild(p);
+      }
+    }
+    add('cp1',['rgba(59,130,246,.6)','rgba(147,197,253,.5)','rgba(6,182,212,.4)']);
+    add('cp2',['rgba(124,58,237,.6)','rgba(196,181,253,.5)','rgba(139,92,246,.4)']);
+  })();
+
+  // Scroll reveal
+  (function(){
+    const els=$$('.reveal');if(!els.length)return;
+    if('IntersectionObserver' in window){
+      const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.08});
+      els.forEach(el=>obs.observe(el));
+    }else{els.forEach(el=>el.classList.add('visible'))}
+  })();
+
+  // Theme toggle
+  (function(){
+    const tg=$('themeToggle'),th=$('toggleThumb'),ic=$('toggleIcon');if(!tg)return;let dk=false;
+    tg.addEventListener('click',()=>{dk=!dk;ic.textContent=dk?'🌙':'☀️';th.style.right=dk?'calc(100% - 24px)':'4px';tg.setAttribute('aria-checked',dk)});
+    tg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tg.click()}});
+  })();
+
+  // Card 3D tilt
+  (function(){
+    $$('.course-card').forEach(card=>{
+      card.addEventListener('mousemove',e=>{
+        const r=card.getBoundingClientRect();
+        const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;
+        card.style.transform=`translateY(-6px) scale(1.01) rotateX(${y*-3}deg) rotateY(${x*3}deg)`;
+      });
+      card.addEventListener('mouseleave',()=>{card.style.transform=''});
+    });
+  })();
+
+  // Ripple
+  (function(){
+    const st=document.createElement('style');
+    st.textContent='@keyframes rippleAnim{to{transform:scale(1);opacity:0}}';
+    document.head.appendChild(st);
+    $$('.cta-btn').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        const rp=document.createElement('span');const rc=btn.getBoundingClientRect();
+        const sz=Math.max(rc.width,rc.height)*1.4;
+        rp.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;top:${e.clientY-rc.top-sz/2}px;left:${e.clientX-rc.left-sz/2}px;background:rgba(255,255,255,.25);border-radius:50%;transform:scale(0);animation:rippleAnim .6s ease forwards;pointer-events:none;z-index:99`;
+        btn.appendChild(rp);rp.addEventListener('animationend',()=>rp.remove());
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

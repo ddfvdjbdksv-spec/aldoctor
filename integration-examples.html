@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أمثلة دمج نظام الطباعة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #0284c7;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #0369a1;
+            margin: 30px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0284c7;
+        }
+
+        .example {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-right: 4px solid #0284c7;
+        }
+
+        .example-title {
+            font-weight: 700;
+            color: #0284c7;
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: #2d3436;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 6px;
+            display: block;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .note {
+            background: #fffbea;
+            border-right: 4px solid #ffa502;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin: 10px 0;
+            color: #c77f2c;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #e8f5e9;
+            border-right: 4px solid #2ed573;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin: 10px 0;
+            color: #1b5e20;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #0284c7;
+            color: white;
+            font-weight: 700;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .highlight {
+            background: #ffffcc;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+
+        ol {
+            margin: 15px 0;
+            padding-right: 20px;
+        }
+
+        li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖨️ أمثلة دمج نظام الطباعة المتقدم</h1>
+
+        <div class="success">
+            ✅ هذا الملف يحتوي على أمثلة عملية لكيفية دمج نظام الطباعة المتقدم مع dashboard.html
+        </div>
+
+        <!-- SECTION 1 -->
+        <div class="section">
+            <h2>1️⃣ الخطوة الأولى: إضافة المكتبة</h2>
+            
+            <div class="example">
+                <div class="example-title">أضف هذا السطر في <code style="background: none; color: #0284c7; padding: 0;">head</code> من dashboard.html:</div>
+                <code>&lt;!-- مكتبة الطباعة المتقدمة --&gt;
+&lt;script src="test-printer.js"&gt;&lt;/script&gt;</code>
+                
+                <div class="note">
+                    تأكد من أن ملف `test-printer.js` موجود في نفس مجلد `dashboard.html`
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2 -->
+        <div class="section">
+            <h2>2️⃣ الطريقة الأولى: زر طباعة بسيط</h2>
+            
+            <div class="example">
+                <div class="example-title">إضافة زر في HTML:</div>
+                <code>&lt;button onclick="printTestResultsFromAdmin('grade-id', 'test-id')" class="btn-print"&gt;
+  🖨️ طباعة نتائج الاختبار
+&lt;/button&gt;</code>
+
+                <div class="button-group">
+                    <button class="btn-primary" onclick="alert('سيفتح نافذة الطباعة')">
+                        🖨️ جرب هنا
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3 -->
+        <div class="section">
+            <h2>3️⃣ الطريقة الثانية: إرسال بيانات مخصصة</h2>
+            
+            <div class="example">
+                <div class="example-title">استخدم هذا الكود عند جلب البيانات من API:</div>
+                <code>// جلب البيانات من API
+fetch('/api/test-results/123')
+  .then(res => res.json())
+  .then(data => {
+    // تنظيم البيانات
+    const testData = {
+      testName: data.test.name,
+      testDate: data.test.date,
+      testGrade: data.test.grade,
+      testDuration: data.test.duration,
+      passedStudents: data.passed,
+      absentStudents: data.absent
+    };
+    
+    // فتح نافذة الطباعة
+    testResultsPrinter.openPrintWindow(testData);
+  });</code>
+            </div>
+        </div>
+
+        <!-- SECTION 4 -->
+        <div class="section">
+            <h2>4️⃣ الطريقة الثالثة: من جدول النتائج الموجود</h2>
+            
+            <div class="example">
+                <div class="example-title">إذا كنت لديك جدول نتائج موجود:</div>
+                <code>// جلب البيانات من الجدول الموجود
+function printFromExistingTable() {
+  const testData = {
+    testName: document.querySelector('[data-test-name]').textContent,
+    testDate: new Date().toLocaleDateString('ar-EG'),
+    testGrade: document.querySelector('[data-grade-name]').textContent,
+    testDuration: '60 دقيقة',
+    passedStudents: getPassedStudentsFromTable(),
+    absentStudents: getAbsentStudentsFromTable()
+  };
+  
+  testResultsPrinter.openPrintWindow(testData);
+}</code>
+
+                <div class="note">
+                    الدوال `getPassedStudentsFromTable` و `getAbsentStudentsFromTable` موجودة في `test-printer.js`
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5 -->
+        <div class="section">
+            <h2>5️⃣ بنية البيانات المطلوبة</h2>
+            
+            <div class="example">
+                <div class="example-title">📊 بيانات الطالب الناجح:</div>
+                <code>{
+  rank: 1,                    // الترتيب (رقم)
+  name: "أحمد محمود",          // اسم الطالب (نص)
+  rollNo: "001",              // رقم الجلسة (نص)
+  score: 95,                  // الدرجة المحققة (رقم)
+  total: 100,                 // الدرجة الكلية (رقم)
+  percentage: 95,             // النسبة المئوية (رقم)
+  grade: "A"                  // التقدير A, B, C, D, F
+}</code>
+
+                <div class="example-title" style="margin-top: 20px;">⛔ بيانات الطالب الغائب:</div>
+                <code>{
+  rank: 1,                    // الترتيب (رقم)
+  name: "أسماء خالد",         // اسم الطالب (نص)
+  rollNo: "016",              // رقم الجلسة (نص)
+  reason: "غياب مرضي"         // سبب الغياب (نص)
+}</code>
+            </div>
+        </div>
+
+        <!-- SECTION 6 -->
+        <div class="section">
+            <h2>6️⃣ الدوال المتاحة</h2>
+            
+            <div class="example">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>اسم الدالة</th>
+                            <th>الوصف</th>
+                            <th>المثال</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>openPrintWindow()</td>
+                            <td>فتح نافذة الطباعة</td>
+                            <td>testResultsPrinter.openPrintWindow(data)</td>
+                        </tr>
+                        <tr>
+                            <td>setPassedStudents()</td>
+                            <td>تعيين الطلاب الناجحين</td>
+                            <td>testResultsPrinter.setPassedStudents([])</td>
+                        </tr>
+                        <tr>
+                            <td>setAbsentStudents()</td>
+                            <td>تعيين الطلاب الغائبين</td>
+                            <td>testResultsPrinter.setAbsentStudents([])</td>
+                        </tr>
+                        <tr>
+                            <td>getSummary()</td>
+                            <td>الحصول على الملخص الإحصائي</td>
+                            <td>const summary = testResultsPrinter.getSummary()</td>
+                        </tr>
+                        <tr>
+                            <td>exportResultsToExcel()</td>
+                            <td>تصدير إلى Excel</td>
+                            <td>exportResultsToExcel('grade', 'test')</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECTION 7 -->
+        <div class="section">
+            <h2>7️⃣ مثال عملي كامل</h2>
+            
+            <div class="example">
+                <div class="example-title">كود متكامل لطباعة نتائج فصل:</div>
+                <code>// دالة شاملة لطباعة النتائج
+async function printGradeTestResults(gradeId, testId) {
+  try {
+    // 1. جلب البيانات
+    const response = await fetch(
+      \`/api/grades/\${gradeId}/tests/\${testId}/results\`
+    );
+    
+    if (!response.ok) throw new Error('خطأ في جلب البيانات');
+    
+    const { test, results } = await response.json();
+    
+    // 2. تنظيم البيانات - الناجحون
+    const passedStudents = results
+      .filter(r => r.status === 'passed')
+      .map((r, i) => ({
+        rank: i + 1,
+        name: r.studentName,
+        rollNo: r.studentId,
+        score: r.score,
+        total: r.totalScore,
+        percentage: r.percentage,
+        grade: getGradeFromPercentage(r.percentage)
+      }));
+    
+    // 3. تنظيم البيانات - الغائبون
+    const absentStudents = results
+      .filter(r => r.status === 'absent')
+      .map((r, i) => ({
+        rank: i + 1,
+        name: r.studentName,
+        rollNo: r.studentId,
+        reason: r.absentReason || 'غياب'
+      }));
+    
+    // 4. إعداد كائن البيانات الكامل
+    const testData = {
+      testName: test.name,
+      testDate: new Date(test.date).toLocaleDateString('ar-EG'),
+      testGrade: test.gradeName,
+      testDuration: test.duration,
+      passedStudents: passedStudents,
+      absentStudents: absentStudents
+    };
+    
+    // 5. فتح نافذة الطباعة
+    testResultsPrinter.openPrintWindow(testData);
+    
+    // 6. عرض رسالة نجاح
+    alert('تم فتح نافذة الطباعة بنجاح!');
+    
+  } catch (error) {
+    console.error('خطأ:', error);
+    alert('حدث خطأ: ' + error.message);
+  }
+}
+
+// تحديد التقدير بناء على النسبة
+function getGradeFromPercentage(percentage) {
+  if (percentage >= 90) return 'A';
+  if (percentage >= 80) return 'B';
+  if (percentage >= 70) return 'C';
+  if (percentage >= 60) return 'D';
+  return 'F';
+}</code>
+
+                <div class="button-group">
+                    <button class="btn-primary" onclick="alert('في التطبيق الحقيقي، هذا سيفتح نافذة الطباعة')">
+                        🖨️ جرب الكود الكامل
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 8 -->
+        <div class="section">
+            <h2>8️⃣ خطوات التكامل مع dashboard.html</h2>
+            
+            <div class="example">
+                <ol>
+                    <li><span class="highlight">انسخ الملفات الثلاثة</span> إلى مجلد مشروعك:
+                        <ul style="margin: 10px 0; padding-right: 20px;">
+                            <li>✅ test-printer.js</li>
+                            <li>✅ print-results.html</li>
+                            <li>✅ README.md (التوثيق)</li>
+                        </ul>
+                    </li>
+                    <li><span class="highlight">أضف المكتبة</span> في head من dashboard.html:
+                        <code style="margin: 10px 0;">&lt;script src="test-printer.js"&gt;&lt;/script&gt;</code>
+                    </li>
+                    <li><span class="highlight">أضف زر الطباعة</span> في جدول النتائج</li>
+                    <li><span class="highlight">اختبر الوظيفة</span> بالضغط على الزر</li>
+                    <li><span class="highlight">اضبط البيانات</span> حسب احتياجاتك</li>
+                </ol>
+
+                <div class="success" style="margin-top: 20px;">
+                    ✅ انتهيت؟ الآن يمكنك الطباعة بضغطة واحدة!
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 9 -->
+        <div class="section">
+            <h2>9️⃣ نصائح وحيل</h2>
+            
+            <div class="example">
+                <div class="example-title">💡 نصائح مفيدة:</div>
+                <ol>
+                    <li>استخدم <span class="highlight">F12</span> لفتح الـ Developer Tools واختبار الدوال</li>
+                    <li>تأكد من أن البيانات <span class="highlight">بصيغة JSON</span> صحيحة</li>
+                    <li>استخدم <span class="highlight">console.log()</span> لطباعة البيانات والتحقق منها</li>
+                    <li>جرّب <span class="highlight">window.print()</span> الخاص بالمتصفح للمقارنة</li>
+                    <li>في الطباعة، استخدم <span class="highlight">معاينة الطباعة</span> قبل الطباعة الفعلية</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- SECTION 10 -->
+        <div class="section">
+            <h2>🔟 استكشاف المشاكل</h2>
+            
+            <div class="example">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>المشكلة</th>
+                            <th>السبب</th>
+                            <th>الحل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>النافذة لا تفتح</td>
+                            <td>حظر النوافذ المنبثقة</td>
+                            <td>اسمح بالنوافذ المنبثقة في المتصفح</td>
+                        </tr>
+                        <tr>
+                            <td>البيانات لا تظهر</td>
+                            <td>مسار الملف خاطئ</td>
+                            <td>تأكد من وجود print-results.html</td>
+                        </tr>
+                        <tr>
+                            <td>الطباعة سيئة</td>
+                            <td>إعدادات الطباعة</td>
+                            <td>استخدم معاينة الطباعة</td>
+                        </tr>
+                        <tr>
+                            <td>خطأ في التصدير</td>
+                            <td>نقص البيانات</td>
+                            <td>تحقق من البيانات المرسلة</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e0e0e0; text-align: center; color: #666;">
+            <p>📚 نظام الطباعة المتقدم | الدكتور في اللغة العربية</p>
+            <p style="font-size: 12px; margin-top: 10px;">آخر تحديث: 25/06/2026</p>
+        </div>
+    </div>
+
+    <script src="test-printer.js"></script>
+<style>
+.dev-signature{position:relative;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;padding:22px 18px;background:radial-gradient(circle at 18% 25%, rgba(56,189,248,0.10) 0%, transparent 50%),radial-gradient(circle at 82% 75%, rgba(234,179,8,0.10) 0%, transparent 50%),linear-gradient(180deg, #0a0f1f 0%, #0d1426 100%);border-top:1px solid rgba(234,179,8,0.18);overflow:hidden;font-family:'Tajawal',sans-serif;}
+.dev-signature::before{content:"";position:absolute;top:0;right:0;left:0;height:2px;background:linear-gradient(90deg, transparent, #38bdf8, #eab308, #38bdf8, transparent);opacity:.55;}
+.dev-signature-text{font-size:.82rem;color:#64748c;font-weight:500;letter-spacing:.2px;}
+.dev-signature-link{position:relative;display:inline-flex;align-items:center;gap:8px;text-decoration:none;cursor:pointer;padding:8px 4px;border-radius:10px;transition:transform .25s ease;}
+.dev-signature-name{font-size:.97rem;font-weight:800;letter-spacing:.2px;background:linear-gradient(90deg,#7dd3fc 0%, #fde68a 55%, #facc15 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:sig-pulse 2.8s ease-in-out infinite;}
+.dev-signature-link i.fa-code{font-size:.78rem;color:#38bdf8;transition:color .25s ease, transform .25s ease;}
+@keyframes sig-pulse{0%,100%{filter:brightness(1) drop-shadow(0 0 0 rgba(250,204,21,0));}50%{filter:brightness(1.18) drop-shadow(0 0 6px rgba(250,204,21,0.35));}}
+.dev-signature-link:hover{transform:translateY(-1px);}
+.dev-signature-link:hover i.fa-code{color:#facc15;transform:rotate(-6deg);}
+.dev-signature-link::after{content:"";position:absolute;left:4px;right:4px;bottom:2px;height:1px;background:linear-gradient(90deg,#38bdf8,#facc15);transform:scaleX(0);transform-origin:right;transition:transform .3s ease;}
+.dev-signature-link:hover::after{transform:scaleX(1);}
+.dev-signature-phone{display:inline-flex;align-items:center;gap:6px;font-size:.83rem;font-weight:700;color:#5eead4;background:rgba(94,234,212,0.08);border:1px solid rgba(94,234,212,0.28);border-radius:20px;padding:0;direction:ltr;opacity:0;max-width:0;overflow:hidden;white-space:nowrap;transition:opacity .35s ease, max-width .45s cubic-bezier(.34,1.56,.64,1), padding .4s ease, margin .4s ease;}
+.dev-signature-phone.show{opacity:1;max-width:220px;margin-right:2px;padding:6px 14px;}
+.dev-signature-phone i{font-size:.78rem;}
+@media print{.dev-signature{display:none !important;}}
+@media (max-width:480px){.dev-signature{padding:18px 14px;gap:8px;}.dev-signature-text{font-size:.76rem;}.dev-signature-name{font-size:.9rem;}.dev-signature-phone{font-size:.78rem;}}
+</style>
+<div class="dev-signature">
+  <span class="dev-signature-text">تم التصميم والتطوير بواسطة</span>
+  <a href="javascript:void(0)" class="dev-signature-link" id="devSigToggle">
+    <i class="fas fa-code"></i>
+    <span class="dev-signature-name">Eng. Ahmed Amr Abo Alhaj</span>
+  </a>
+  <span class="dev-signature-phone" id="devSigPhone">
+    <i class="fas fa-phone"></i> 01001352771
+  </span>
+</div>
+<script>
+(function () {
+  var btn = document.getElementById('devSigToggle');
+  var phone = document.getElementById('devSigPhone');
+  if (btn && phone) {
+    btn.addEventListener('click', function () {
+      phone.classList.toggle('show');
+    });
+  }
+})();
+</script>
+</body>
+</html>

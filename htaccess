@@ -1,0 +1,55 @@
+# ============================================================
+# .htaccess — ضبط الكاش على مستوى السيرفر
+# منصة الدكتور في اللغة العربية
+#
+# ده على الأرجح هو سبب المشكلة الحقيقي:
+# الدومين الأصلي شكله بيستخدم استضافة/سيرفر بيحط Cache-Control
+# افتراضي طويل على ملفات HTML/JS (أو فيه CDN زي Cloudflare قدامه)،
+# بينما الـ Subdomain (لو Firebase Hosting افتراضي) معندوش نفس الإعداد.
+# لو الاستضافة Apache (cPanel/شير هوستنج) ضيف الملف ده في الـ root.
+# لو مش Apache، استخدم الإعداد المكافئ (Nginx / firebase.json المرفق).
+# ============================================================
+
+<IfModule mod_headers.c>
+
+  # HTML — منع الكاش نهائيًا (دايمًا يجيب أحدث نسخة)
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # Service Worker — لازم يتفحص من السيرفر في كل مرة، بدون أي كاش
+  <FilesMatch "^sw\.js$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # Manifest — نفس الشيء، بيتغير مع كل تحديث للـ PWA
+  <FilesMatch "^manifest\.json$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+
+  # JS و CSS — كاش قصير جدًا مع إجبار تحقق من السيرفر (revalidate)
+  # ده أأمن من الكاش الطويل لأن أسماء الملفات مش بتتغير (مفيش hash)،
+  # وبيشتغل مع cache-busting (?v=...) المضاف في الصفحات
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # الصور والخطوط — تقدر تكون كاش أطول لأنها نادرًا ما تتغير
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|woff|woff2|ttf)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+
+</IfModule>
+
+# ============================================================
+# ملاحظة مهمة: لو الدومين الأصلي شغال ورا CDN أو Proxy (زي Cloudflare)،
+# لازم كمان تتأكد من إعدادات الكاش هناك — الرؤوس دي ممكن السيرفر
+# يبعتها صح، لكن الـ CDN يتجاهلها ويفضل يخزن نسخة قديمة (Edge Cache).
+# في Cloudflare مثلاً: اعمل Cache Rule لملفات .html و sw.js تحدد
+# "Cache Eligibility: Bypass cache"، أو فعّل خاصية Development Mode
+# مؤقتًا وقت الاختبار، وبعد كل نشر اعمل Purge Cache للملفات دي.
+# ============================================================

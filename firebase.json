@@ -1,0 +1,51 @@
+{
+  "functions": [
+    {
+      "source": ".",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local",
+        "style.css",
+        "*.html",
+        "*.png",
+        "*.jpeg",
+        "*.jpg",
+        "*.webp",
+        "app.js",
+        "dashboard.js",
+        "firebase-config.js",
+        "grade-mapping.js",
+        "sw.js",
+        "performance.js",
+        "firebase-sync.js",
+        "advanced-print-integration.js",
+        "test-printer.js"
+      ],
+      "predeploy": [
+        "npm --prefix . install"
+      ]
+    }
+  ],
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "firestore.rules",
+      "firestore.indexes.json",
+      "package.json",
+      "index.js",
+      "node_modules/**",
+      ".git/**",
+      "sms/**"
+    ]
+  }
+}

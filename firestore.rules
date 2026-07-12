@@ -1,0 +1,129 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ══════════════════════════════════════════════
+    //  قواعد الأمان - منصة الدكتور في اللغة العربية
+    //  تاريخ التحديث: يوليو 2026 — تفعيل Firebase Auth للأدمن
+    // ══════════════════════════════════════════════
+
+    // ⚠️ استبدل القيمة دي بـ UID حساب الأدمن الحقيقي من Firebase Console
+    // (Authentication → Users → انسخ الـ User UID بعد ما تعمل الحساب)
+    function isAdmin() {
+      return request.auth != null &&
+             request.auth.uid == 'yVPSma8c34XWrBL02GC4Mb9lXLQ2';
+    }
+
+    // ── طلاب السنتر: القراءة للكل، الكتابة للأدمن فقط ──
+    match /centerStudents/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── الطلاب: القراءة مقفولة للأدمن بس ──
+    //     (كانت مفتوحة "allow read: if true" وده كان بيسمح لأي حد بره
+    //      الموقع إنه يقرا كل بيانات الطلاب بما فيها الباسورد نص عادي.
+    //      تسجيل دخول الطالب، تسجيل حساب جديد، ونسيت كلمة المرور بيتم كل
+    //      ده دلوقتي عن طريق Cloud Functions بتشتغل بصلاحيات Admin SDK
+    //      وبتتخطى القاعدة دي، فمفيش داعي القراءة/التعديل يبقوا مفتوحين
+    //      من المتصفح تاني.)
+    match /students/{docId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if isAdmin();
+      // ملحوظة: التسجيل + تسجيل الدخول + استعادة كلمة المرور كلها بتتم
+      // عبر Cloud Functions بصلاحيات Admin SDK (بتتخطى الـ rules دي).
+      // مفيش داعي أي write من المتصفح مباشرة.
+    }
+
+    // ── بيانات المنصة (الكورسات، الإعدادات): القراءة مفتوحة، الكتابة للأدمن فقط ──
+    match /platform_data/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── الدروس: القراءة مفتوحة، الكتابة للأدمن فقط ──
+    match /lessons/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── أكواد التفعيل: القراءة والكتابة للأدمن فقط (حساسة جدًا) ──
+    match /activationCodes/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+    // ── الاختبارات: القراءة مفتوحة (الطلاب بيحلوا)، الكتابة للأدمن فقط ──
+    match /quizzes/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── بنك الأسئلة: القراءة مفتوحة، الكتابة للأدمن فقط ──
+    match /question_bank/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── الفيديوهات: القراءة مفتوحة، الكتابة للأدمن فقط ──
+    match /videos/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── محاولات الاختبارات: تُنشأ من الطلاب، تُدار من الأدمن ──
+    match /quiz_attempts/{docId} {
+      allow read: if true;
+      allow create: if true;   // الطالب بيسجل محاولته
+      allow update, delete: if isAdmin();
+    }
+
+    // ── نشاط الطلاب: تُسجَّل تلقائيًا، تُدار من الأدمن ──
+    match /student_activity/{docId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // ── اشتراكات الطلاب في الكورسات ──
+    match /platform_courses/{docId}/{sub=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── طلبات الدفع: الطالب بيبعت طلب، الأدمن أو أداة مراجعة SMS الداخلية
+    //     (بتشتغل من غير Firebase Auth) هي اللي بتعدّل الحالة لـ approved ──
+    match /payment_requests/{docId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAdmin() || (request.auth == null);
+    }
+
+    // ── طلبات الدفع (اسم بديل) ──
+    match /paymentRequests/{docId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAdmin() || (request.auth == null);
+    }
+
+    // ── اشتراكات المنصة: بتتسجل من أداة مراجعة SMS الداخلية عند تفعيل
+    //     الكورس (نفس منطق الاستثناء المطبّق على students) ──
+    match /platform_subscriptions/{docId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAdmin() || (request.auth == null);
+    }
+
+    // ── إشعارات الطلاب: بتتكتب تلقائيًا بعد التفعيل عشان الطالب يشوفها ──
+    match /studentNotifications/{docId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAdmin() || (request.auth == null);
+    }
+
+    // ── كل المجموعات الأخرى: مغلقة تماماً ──
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
