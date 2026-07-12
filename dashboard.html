@@ -2776,6 +2776,7 @@ function showNotification(msg, type){
   const colors = {
     success: { border:'#16a34a', color:'#16a34a', bg:'rgba(22,163,74,.1)' },
     error:   { border:'#dc2626', color:'#dc2626', bg:'rgba(220,38,38,.1)' },
+    warning: { border:'#f59e0b', color:'#b45309', bg:'rgba(245,158,11,.12)' },
     info:    { border:'#00b4d8', color:'#00b4d8', bg:'rgba(0,180,216,.1)' }
   };
   const c2 = colors[type] || colors.info;
@@ -6536,16 +6537,22 @@ async function syncPlatformStudents(showNotif = true) {
     return;
   }
   if (showNotif) showNotification('🔄 جاري جلب بيانات الطلاب...', 'info');
-  try {
-    const users = getUsers();
-    let added = 0;
 
-    // بنجيب من المشروعين مع بعض: القديم (taninya) والجديد (aldoctor)
-    const sources = [];
-    if (window.db) sources.push({ db: window.db, srcNew: false });
-    if (window.dbNew) sources.push({ db: window.dbNew, srcNew: true });
+  const users = getUsers();
+  let added = 0;
+  let anySourceSucceeded = false;
+  const sourceErrors = [];
 
-    for (const { db: srcDb, srcNew } of sources) {
+  // بنجيب من المشروعين مع بعض: الأصلية (aldoctor) والمؤقتة الحالية (taninya)
+  // ⚠️ كل مصدر بقى له try/catch مستقل — لو مصدر واحد فشل (مشكلة صلاحيات/شبكة)
+  // ده منيمنعش تحديث بيانات المصدر التاني؛ قبل كده كانا في try/catch واحد
+  // مشترك، فأي خطأ في المصدر الأول كان بيوقف قراءة المصدر التاني خالص.
+  const sources = [];
+  if (window.db) sources.push({ db: window.db, srcNew: false, label: 'taninya' });
+  if (window.dbNew) sources.push({ db: window.dbNew, srcNew: true, label: 'aldoctor' });
+
+  for (const { db: srcDb, srcNew, label } of sources) {
+    try {
       const snapshot = await srcDb.collection('students').get({ source: 'server' });
       snapshot.forEach(doc => {
         const data = doc.data() || {};
@@ -6579,15 +6586,27 @@ async function syncPlatformStudents(showNotif = true) {
           added++;
         }
       });
+      anySourceSucceeded = true;
+      console.log(`[syncPlatformStudents] ✅ ${label}: تم الجلب (${snapshot.size} مستند)`);
+    } catch (err) {
+      sourceErrors.push({ label, err });
+      console.warn(`[syncPlatformStudents] ❌ فشل الجلب من ${label}:`, err.code || err.message || err);
     }
+  }
 
-    saveUsers(users);
-    if (showNotif) showNotification(`✅ تم تحديث بيانات ${users.length} طالب (${added} جديد)`, 'success');
-    renderStudentsTable();
-    renderOverview();
-  } catch (err) {
-    console.warn('syncPlatformStudents error:', err);
-    if (showNotif) showNotification('⚠️ فشل جلب الطلاب: ' + (err.message||err), 'error');
+  saveUsers(users);
+  renderStudentsTable();
+  renderOverview();
+
+  if (showNotif) {
+    if (sourceErrors.length === 0) {
+      showNotification(`✅ تم تحديث بيانات ${users.length} طالب (${added} جديد)`, 'success');
+    } else if (anySourceSucceeded) {
+      const failedLabels = sourceErrors.map(e => e.label).join('، ');
+      showNotification(`⚠️ اتحدّث ${users.length} طالب، لكن فشل الجلب من: ${failedLabels}`, 'warning');
+    } else {
+      showNotification('⚠️ فشل جلب الطلاب من المشروعين: ' + sourceErrors.map(e => e.err.message || e.err.code || e.err).join(' | '), 'error');
+    }
   }
 }
 // للتوافق مع الأجزاء القديمة التي تستدعي هذا الاسم

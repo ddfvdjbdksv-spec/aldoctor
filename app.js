@@ -971,42 +971,41 @@ async function handleLoginSubmit(e) {
                 return;
             }
             try {
-                let signedIn = false;
-                let signedInVia = null;
+                let newOk = false;
+                let legacyOk = false;
                 let firstErr = null;
 
-                // 1) نجرب المشروع الجديد (taninya) الأول
+                // 1) نجرب المشروع الجديد (taninya)
                 try {
                     await window.auth.signInWithEmailAndPassword(ADMIN_LOGIN_EMAIL, pass);
-                    signedIn = true;
-                    signedInVia = 'new (taninya)';
+                    newOk = true;
                 } catch (errNew) {
-                    firstErr = errNew;
+                    firstErr = firstErr || errNew;
                 }
 
-                // 2) لو فشل، نجرب المشروع القديم (aldoctor) اللي فيه بيانات الأدمن الأصلية
-                if (!signedIn) {
-                    if (!window.authLegacy) {
-                        let waitedLegacy = 0;
-                        while (!window.authLegacy && waitedLegacy < 3000) {
-                            await new Promise(r => setTimeout(r, 200));
-                            waitedLegacy += 200;
-                        }
+                // 2) نجرب برضو المشروع القديم (aldoctor) — مش بس "لو فشل الأول"
+                //    لازم نحاول نسجّل دخول في الاتنين مع بعض (مش واحد بس) عشان
+                //    قراءة "الطلاب" في الداشبورد من قاعدتين مختلفتين محتاجة جلسة
+                //    Auth حقيقية في كل مشروع لوحده (Firestore rules بتتحقق من
+                //    request.auth الخاص بكل مشروع لوحده، مش مشترك بين المشروعين).
+                if (!window.authLegacy) {
+                    let waitedLegacy = 0;
+                    while (!window.authLegacy && waitedLegacy < 3000) {
+                        await new Promise(r => setTimeout(r, 200));
+                        waitedLegacy += 200;
                     }
-                    if (window.authLegacy) {
-                        try {
-                            await window.authLegacy.signInWithEmailAndPassword(ADMIN_LOGIN_EMAIL_LEGACY, pass);
-                            signedIn = true;
-                            signedInVia = 'legacy (aldoctor)';
-                        } catch (errLegacy) {
-                            // لو فشل الاتنين، نفضّل نظهر خطأ المشروع القديم
-                            // (هو المصدر الأصلي لبيانات الأدمن)
-                            firstErr = errLegacy;
-                        }
+                }
+                if (window.authLegacy) {
+                    try {
+                        await window.authLegacy.signInWithEmailAndPassword(ADMIN_LOGIN_EMAIL_LEGACY, pass);
+                        legacyOk = true;
+                    } catch (errLegacy) {
+                        firstErr = firstErr || errLegacy;
                     }
                 }
 
-                console.log('[AdminLogin] signedIn:', signedIn, '| via:', signedInVia);
+                const signedIn = newOk || legacyOk;
+                console.log('[AdminLogin] taninya:', newOk, '| aldoctor:', legacyOk);
                 if (!signedIn) throw firstErr;
 
                 const admin = { id: 0, name: 'الأستاذ الدكتور', phone: '01000000000', role: 'admin' };
