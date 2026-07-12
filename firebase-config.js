@@ -52,5 +52,7 @@ window.dbBackup = backupApp.firestore();
 
 // توافق مع أي كود قديم كان بيستخدم window.dbLegacy / window.dbNew
 // (سايبينهم يشاورو على نفس الـ backup app عشان مايكسروش فجأة)
-window.dbLegacy = window.dbBackup;
-window.dbNew    = window.dbBackup;
+window.dbLegacy = window.db;
+window.dbNew    = window.db;
+window.authLegacy = window.auth;
+window.authNew    = window.auth;

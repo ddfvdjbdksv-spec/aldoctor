@@ -8,12 +8,8 @@
 // الحماية الفعلية هي كلمة المرور المخزنة عند Firebase نفسها، مش هنا).
 // المستخدم لسه بيكتب "2026" في الواجهة كالمعتاد؛ الكود بيحوّله للإيميل ده تلقائيًا.
 //
-// ⚠️ ملاحظة مهمة: حساب الأدمن وبياناته الأمنية اتعملوا أصلاً في المشروع
-// القديم (aldoctor). بعد النقل للمشروع الجديد (taninya) بقينا محتاجين
-// نتحقق من الاتنين: بنجرب المشروع الجديد الأول (لو الحساب اتعمل هناك
-// كمان)، ولو فشل بنجرب المشروع القديم اللي لسه فيه بيانات الأدمن الأصلية.
-const ADMIN_LOGIN_EMAIL = 'admin@taninya-dea03.local';
-const ADMIN_LOGIN_EMAIL_LEGACY = 'admin@aldoctor-7e153.local';
+// حساب الأدمن الأصلي موجود في Firebase Authentication الخاص بمشروع aldoctor.
+const ADMIN_LOGIN_EMAIL = 'admin@aldoctor-7e153.local';
 
 document.addEventListener('DOMContentLoaded', () => {
     initIntroSplash();
@@ -971,42 +967,8 @@ async function handleLoginSubmit(e) {
                 return;
             }
             try {
-                let newOk = false;
-                let legacyOk = false;
-                let firstErr = null;
-
-                // 1) نجرب المشروع الجديد (taninya)
-                try {
-                    await window.auth.signInWithEmailAndPassword(ADMIN_LOGIN_EMAIL, pass);
-                    newOk = true;
-                } catch (errNew) {
-                    firstErr = firstErr || errNew;
-                }
-
-                // 2) نجرب برضو المشروع القديم (aldoctor) — مش بس "لو فشل الأول"
-                //    لازم نحاول نسجّل دخول في الاتنين مع بعض (مش واحد بس) عشان
-                //    قراءة "الطلاب" في الداشبورد من قاعدتين مختلفتين محتاجة جلسة
-                //    Auth حقيقية في كل مشروع لوحده (Firestore rules بتتحقق من
-                //    request.auth الخاص بكل مشروع لوحده، مش مشترك بين المشروعين).
-                if (!window.authLegacy) {
-                    let waitedLegacy = 0;
-                    while (!window.authLegacy && waitedLegacy < 3000) {
-                        await new Promise(r => setTimeout(r, 200));
-                        waitedLegacy += 200;
-                    }
-                }
-                if (window.authLegacy) {
-                    try {
-                        await window.authLegacy.signInWithEmailAndPassword(ADMIN_LOGIN_EMAIL_LEGACY, pass);
-                        legacyOk = true;
-                    } catch (errLegacy) {
-                        firstErr = firstErr || errLegacy;
-                    }
-                }
-
-                const signedIn = newOk || legacyOk;
-                console.log('[AdminLogin] taninya:', newOk, '| aldoctor:', legacyOk);
-                if (!signedIn) throw firstErr;
+                await window.auth.signInWithEmailAndPassword(ADMIN_LOGIN_EMAIL, pass);
+                console.log('[AdminLogin] aldoctor: true');
 
                 const admin = { id: 0, name: 'الأستاذ الدكتور', phone: '01000000000', role: 'admin' };
                 saveSession(admin);
@@ -1018,7 +980,7 @@ async function handleLoginSubmit(e) {
                 // (هنشيلها ونرجّع الرسالة العادية بعد ما تتأكد المشكلة اتحلت)
                 let diag = 'بيانات الدخول غير صحيحة.';
                 if (err && err.code === 'auth/user-not-found') {
-                    diag = 'الحساب غير موجود في Firebase Authentication (اتحقق منه في المشروعين taninya-dea03 و aldoctor-7e153).';
+                    diag = 'الحساب غير موجود في Firebase Authentication داخل مشروع aldoctor-7e153.';
                 } else if (err && (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential' || err.code === 'auth/invalid-login-credentials')) {
                     diag = 'الحساب موجود لكن كلمة المرور غلط (راجع كلمة المرور المسجلة في Firebase Console).';
                 } else if (err && err.code === 'auth/network-request-failed') {
