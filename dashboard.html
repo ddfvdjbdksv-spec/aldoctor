@@ -2336,14 +2336,22 @@ if (!currentUser || currentUser.role !== 'admin') {
     // undefined = لسه ماوصلش رد من الـ listener بتاع المشروع ده
     let newProjectUser = undefined;
     let legacyProjectUser = undefined;
+    let decided = false;
 
     function evaluate() {
+      if (decided) return;
       // نستنى الاتنين يردّوا قبل ما ناخد قرار الطرد
       if (newProjectUser === undefined || legacyProjectUser === undefined) return;
       const hasRealSession = !!newProjectUser || !!legacyProjectUser;
+      console.log('[AdminAuthGuard] new-project user:', newProjectUser ? newProjectUser.email : null,
+                  '| legacy-project user:', legacyProjectUser ? legacyProjectUser.email : null);
       if (!hasRealSession) {
+        decided = true;
+        console.warn('[AdminAuthGuard] مفيش Session حقيقي في أي من المشروعين — هيتم تسجيل الخروج.');
         localStorage.removeItem('alamin_current');
         window.location.replace('index.html#login');
+      } else {
+        decided = true;
       }
     }
 
@@ -2363,6 +2371,16 @@ if (!currentUser || currentUser.role !== 'admin') {
       legacyProjectUser = null;
       evaluate();
     }
+
+    // ⏳ شبكة أمان: لو الاتنين اتأخروا في الرد (بطء نت/تحميل) لأكتر من 5
+    // ثواني، منطردش الأدمن غلط — الحماية الحقيقية أصلاً في Firestore rules،
+    // والفحص ده هنا مجرد طبقة UX إضافية.
+    setTimeout(() => {
+      if (!decided) {
+        console.warn('[AdminAuthGuard] حالة الـ Auth لسه مش واضحة بعد 5 ثواني — هنكمّل من غير طرد.');
+        decided = true;
+      }
+    }, 5000);
   });
 })();
 

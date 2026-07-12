@@ -972,12 +972,14 @@ async function handleLoginSubmit(e) {
             }
             try {
                 let signedIn = false;
+                let signedInVia = null;
                 let firstErr = null;
 
                 // 1) نجرب المشروع الجديد (taninya) الأول
                 try {
                     await window.auth.signInWithEmailAndPassword(ADMIN_LOGIN_EMAIL, pass);
                     signedIn = true;
+                    signedInVia = 'new (taninya)';
                 } catch (errNew) {
                     firstErr = errNew;
                 }
@@ -995,6 +997,7 @@ async function handleLoginSubmit(e) {
                         try {
                             await window.authLegacy.signInWithEmailAndPassword(ADMIN_LOGIN_EMAIL_LEGACY, pass);
                             signedIn = true;
+                            signedInVia = 'legacy (aldoctor)';
                         } catch (errLegacy) {
                             // لو فشل الاتنين، نفضّل نظهر خطأ المشروع القديم
                             // (هو المصدر الأصلي لبيانات الأدمن)
@@ -1003,6 +1006,7 @@ async function handleLoginSubmit(e) {
                     }
                 }
 
+                console.log('[AdminLogin] signedIn:', signedIn, '| via:', signedInVia);
                 if (!signedIn) throw firstErr;
 
                 const admin = { id: 0, name: 'الأستاذ الدكتور', phone: '01000000000', role: 'admin' };
